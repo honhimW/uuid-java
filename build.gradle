@@ -103,6 +103,9 @@ mavenPublishing {
 
 test {
     useJUnitPlatform()
+    testLogging {
+        showStandardStreams true
+    }
 }
 
 tasks.register('bench', JavaExec) {
