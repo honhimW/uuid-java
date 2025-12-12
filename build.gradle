@@ -51,54 +51,37 @@ dependencies {
     }
 }
 
-publishing {
-    def self = project
-    SoftwareComponent target
+mavenPublishing {
+    publishToMavenCentral false
+    signAllPublications()
+    coordinates(group as String, name, version as String)
 
-    project.plugins.withType(JavaLibraryPlugin).configureEach {
-        target = project.components.java
-    }
-    publications {
-        create('artifacts', MavenPublication) {
-            groupId self.group as String
-            artifactId self.name
-            version self.version as String
-            from target
-
-            pom {
-                packaging = 'jar'
-                name = title
-                description = self.description
-                url = 'https://github.com/honhimW/uuid-java'
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'honhimw'
-                        name = 'honhimw'
-                        url = 'https://honhimW.github.io'
-                        email = 'honhimw@outlook.com'
-                    }
-                }
-                scm {
-                    url = 'https://github.com/honhimW/uuid-java'
-                    connection = 'scm:git:git://github.com/honhimW/uuid-java.git'
-                    developerConnection = 'scm:git:ssh://github.com/honhimW/uuid-java.git'
-                }
+    pom {
+        packaging = 'jar'
+        name = title
+        description = project.description
+        url = 'https://github.com/honhimW/uuid-java'
+        licenses {
+            license {
+                name = 'The Apache License, Version 2.0'
+                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
             }
         }
+        developers {
+            developer {
+                id = 'honhimw'
+                name = 'honhimw'
+                url = 'https://honhimW.github.io'
+                email = 'honhimw@outlook.com'
+            }
+        }
+        scm {
+            url = 'https://github.com/honhimW/uuid-java'
+            connection = 'scm:git:git://github.com/honhimW/uuid-java.git'
+            developerConnection = 'scm:git:ssh://github.com/honhimW/uuid-java.git'
+        }
     }
-}
-
-mavenPublishing {
-    publishToMavenCentral()
-    signAllPublications()
-//    coordinates(group as String, name, version as String)
 }
 
 test {
