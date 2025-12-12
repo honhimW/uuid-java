@@ -51,7 +51,7 @@ public class UuidTests {
             Assertions.assertTrue(timestamp.isPresent());
             Timestamp ts = timestamp.get();
             Assertions.assertEquals(now.seconds, ts.seconds);
-            Assertions.assertEquals(now.nanos / 100, ts.seconds / 100); // precision issue on linux
+            Assertions.assertEquals(now.nanos / 100, ts.nanos / 100); // precision issue on linux
             Assertions.assertEquals(now.counter, ts.counter);
             Assertions.assertEquals(now.usableCounterBits, ts.usableCounterBits);
             Optional<NodeId> node = uuid.node();
