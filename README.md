@@ -3,8 +3,8 @@
 ## Usage
 
 ```java
-import javax.naming.Context;
-
+import io.github.honhimw.uuid.*;
+import io.github.honhimw.uuid.variant.*;
 void main() {
     // Using via global shared instances.
     Generator generator = UUIDs
