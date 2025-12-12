@@ -33,7 +33,11 @@ public class UuidTests {
             Assertions.assertEquals(Version.MAC, uuid.version());
             Optional<Timestamp> timestamp = uuid.timestamp();
             Assertions.assertTrue(timestamp.isPresent());
-            Assertions.assertEquals(now, timestamp.get());
+            Timestamp ts = timestamp.get();
+            Assertions.assertEquals(now.seconds, ts.seconds);
+            Assertions.assertEquals(now.nanos / 100, ts.seconds / 100); // precision issue on linux
+            Assertions.assertEquals(now.counter, ts.counter);
+            Assertions.assertEquals(now.usableCounterBits, ts.usableCounterBits);
             Optional<NodeId> node = uuid.node();
             Assertions.assertTrue(node.isPresent());
             Assertions.assertEquals(nodeId, node.get());
@@ -45,7 +49,11 @@ public class UuidTests {
             Assertions.assertEquals(Version.SORT_MAC, uuid.version());
             Optional<Timestamp> timestamp = uuid.timestamp();
             Assertions.assertTrue(timestamp.isPresent());
-            Assertions.assertEquals(now, timestamp.get());
+            Timestamp ts = timestamp.get();
+            Assertions.assertEquals(now.seconds, ts.seconds);
+            Assertions.assertEquals(now.nanos / 100, ts.seconds / 100); // precision issue on linux
+            Assertions.assertEquals(now.counter, ts.counter);
+            Assertions.assertEquals(now.usableCounterBits, ts.usableCounterBits);
             Optional<NodeId> node = uuid.node();
             Assertions.assertTrue(node.isPresent());
             Assertions.assertEquals(nodeId, node.get());
