@@ -1,4 +1,4 @@
-package io.github.honhimw.uuid.variant;
+package io.github.honhimw.uuid.gen;
 
 import io.github.honhimw.uuid.Context;
 import io.github.honhimw.uuid.Generator;

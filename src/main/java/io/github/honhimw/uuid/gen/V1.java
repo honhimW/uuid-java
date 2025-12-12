@@ -1,4 +1,4 @@
-package io.github.honhimw.uuid.variant;
+package io.github.honhimw.uuid.gen;
 
 import io.github.honhimw.uuid.Context;
 import io.github.honhimw.uuid.NodeId;
@@ -9,15 +9,15 @@ import java.util.UUID;
 
 /**
  * @author honhimW
- * @since 2025-12-09
+ * @since 2025-12-08
  */
 
-public class V6 extends AbstractGenerator {
+public class V1 extends AbstractGenerator {
 
-    public V6() {
+    public V1() {
     }
 
-    public V6(Context context) {
+    public V1(Context context) {
         super(context);
     }
 
@@ -28,11 +28,11 @@ public class V6 extends AbstractGenerator {
 
     public UUID now(NodeId nodeId) {
         Timestamp ts = Timestamp.now(_ctx.clockSequence);
-        return UuidBuilder.fromSortedGregorian(ts, nodeId).build();
+        return of(ts, nodeId);
     }
 
     public static UUID of(Timestamp ts, NodeId nodeId) {
-        return UuidBuilder.fromSortedGregorian(ts, nodeId).build();
+        return UuidBuilder.fromGregorian(ts, nodeId).build();
     }
 
 }

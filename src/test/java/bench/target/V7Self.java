@@ -2,7 +2,7 @@ package bench.target;
 
 import bench.AbstractBench;
 import io.github.honhimw.uuid.UUIDs;
-import io.github.honhimw.uuid.variant.V7;
+import io.github.honhimw.uuid.gen.V7;
 
 /**
  * @author honhimW

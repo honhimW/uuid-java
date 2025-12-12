@@ -1,6 +1,6 @@
 package io.github.honhimw.uuid;
 
-import io.github.honhimw.uuid.variant.V1;
+import io.github.honhimw.uuid.gen.V1;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

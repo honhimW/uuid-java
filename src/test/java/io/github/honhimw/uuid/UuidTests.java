@@ -1,9 +1,9 @@
 package io.github.honhimw.uuid;
 
 import com.fasterxml.uuid.Generators;
-import io.github.honhimw.uuid.variant.V1;
-import io.github.honhimw.uuid.variant.V6;
-import io.github.honhimw.uuid.variant.V7;
+import io.github.honhimw.uuid.gen.V1;
+import io.github.honhimw.uuid.gen.V6;
+import io.github.honhimw.uuid.gen.V7;
 import io.github.robsonkades.uuidv7.UUIDv7;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;

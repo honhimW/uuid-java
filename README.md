@@ -4,7 +4,7 @@
 
 ```java
 import io.github.honhimw.uuid.*;
-import io.github.honhimw.uuid.variant.*;
+import io.github.honhimw.uuid.gen.*;
 void main() {
     // Using via global shared instances.
     Generator generator = UUIDs

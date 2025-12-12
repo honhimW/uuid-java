@@ -1,6 +1,6 @@
 package io.github.honhimw.uuid;
 
-import io.github.honhimw.uuid.variant.*;
+import io.github.honhimw.uuid.gen.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
