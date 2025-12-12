@@ -33,7 +33,7 @@ public class UuidTests {
             Assertions.assertEquals(Version.MAC, uuid.version());
             Optional<Timestamp> timestamp = uuid.timestamp();
             Assertions.assertTrue(timestamp.isPresent());
-            Assertions.assertEquals(now, timestamp.get(), () -> String.format("expected: %s, but: %s", now, timestamp.get()));
+            Assertions.assertEquals(now, timestamp.get());
             Optional<NodeId> node = uuid.node();
             Assertions.assertTrue(node.isPresent());
             Assertions.assertEquals(nodeId, node.get());
