@@ -1,0 +1,31 @@
+[versions]
+version = "0.1.0"
+jspecify = "1.0.0"
+junit = "5.14.1"
+central-publish = "0.35.0"
+jmh = "1.37"
+lombok = "1.18.42"
+
+[libraries.jspecify]
+module = "org.jspecify:jspecify"
+version.ref = "jspecify"
+
+[libraries.junit]
+module = "org.junit:junit-bom"
+version.ref = "junit"
+
+[libraries.jmh-core]
+module = "org.openjdk.jmh:jmh-core"
+version.ref = "jmh"
+
+[libraries.jmh-generator-annprocess]
+module = "org.openjdk.jmh:jmh-generator-annprocess"
+version.ref = "jmh"
+
+[libraries.lombok]
+module = "org.projectlombok:lombok"
+version.ref = "lombok"
+
+[plugins.publish]
+id = "com.vanniktech.maven.publish"
+version.ref = "central-publish"

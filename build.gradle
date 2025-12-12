@@ -1,0 +1,113 @@
+import static java.nio.charset.StandardCharsets.UTF_8
+
+plugins {
+    id 'java'
+    alias libs.plugins.publish
+}
+
+group = 'io.github.honhimw'
+version = libs.versions.version.get()
+description = 'UUID generators.'
+
+def title = 'UUID generators'
+
+repositories {
+    mavenCentral()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = UTF_8.name()
+//    inputs.files(tasks.withType(ProcessResources))
+    options.compilerArgs << '-Werror' << '-Xlint:-options' << '-Xlint:deprecation' << '-Xlint:unchecked'
+}
+
+java {
+    toolchain {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    testCompileOnly { extendsFrom testAnnotationProcessor }
+}
+
+dependencies {
+    dependencies {
+        compileOnly libs.jspecify
+
+        testImplementation 'io.github.robsonkades:uuidv7:1.0.1'
+        testImplementation 'com.fasterxml.uuid:java-uuid-generator:5.1.0'
+        testImplementation 'com.github.f4b6a3:uuid-creator:6.1.1'
+        testImplementation platform(libs.junit)
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+        testImplementation 'org.junit.platform:junit-platform-engine'
+        testImplementation 'org.junit.platform:junit-platform-launcher'
+
+        testImplementation libs.jmh.core
+        testAnnotationProcessor libs.jmh.generator.annprocess
+        testAnnotationProcessor libs.lombok
+    }
+}
+
+publishing {
+    def self = project
+    SoftwareComponent target
+
+    project.plugins.withType(JavaLibraryPlugin).configureEach {
+        target = project.components.java
+    }
+    publications {
+        create('artifacts', MavenPublication) {
+            groupId self.group as String
+            artifactId self.name
+            version self.version as String
+            from target
+
+            pom {
+                packaging = 'jar'
+                name = title
+                description = self.description
+                url = 'https://github.com/honhimW/uuid-java'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'honhimw'
+                        name = 'honhimw'
+                        url = 'https://honhimW.github.io'
+                        email = 'honhimw@outlook.com'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/honhimW/uuid-java'
+                    connection = 'scm:git:git://github.com/honhimW/uuid-java.git'
+                    developerConnection = 'scm:git:ssh://github.com/honhimW/uuid-java.git'
+                }
+            }
+        }
+    }
+}
+
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+//    coordinates(group as String, name, version as String)
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('bench', JavaExec) {
+    group = 'benchmark'
+    mainClass = 'bench.BenchmarkRunner'
+    classpath = sourceSets.test.runtimeClasspath
+}
+
