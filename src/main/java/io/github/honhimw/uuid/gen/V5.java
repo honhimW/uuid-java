@@ -5,47 +5,68 @@ import io.github.honhimw.uuid.Context;
 import io.github.honhimw.uuid.UUIDs;
 import io.github.honhimw.uuid.UuidBuilder;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Random;
 import java.util.UUID;
 
 /**
+ * <a href="https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-5">Version 5</a>
+ * UUIDv5 generator.
+ *
  * @author honhimW
+ * @see io.github.honhimw.uuid.Version#SHA1
  * @since 2025-12-09
  */
 
 public class V5 extends AbstractGenerator {
 
-    private final UUID namespace;
+    private final byte[] namespace;
 
-    private final byte[] _bytes;
-
+    /**
+     * DNS namespace generator
+     *
+     * @return DNS namespace generator
+     */
     public static V5 dns() {
         return new V5(UUIDs.NAMESPACE_DNS);
     }
 
+    /**
+     * Object-ID namespace generator
+     *
+     * @return Object-ID namespace generator
+     */
     public static V5 oid() {
         return new V5(UUIDs.NAMESPACE_OID);
     }
 
+    /**
+     * URL namespace generator
+     *
+     * @return URL namespace generator
+     */
     public static V5 url() {
         return new V5(UUIDs.NAMESPACE_URL);
     }
 
+    /**
+     * X500 namespace generator
+     *
+     * @return X500 namespace generator
+     */
     public static V5 x500() {
         return new V5(UUIDs.NAMESPACE_X500);
     }
 
     public V5(UUID namespace) {
         super();
-        this.namespace = namespace;
-        this._bytes = UUIDs.toBytes(namespace);
+        this.namespace = UUIDs.toBytes(namespace);
     }
 
     public V5(Context context, UUID namespace) {
         super(context);
-        this.namespace = namespace;
-        this._bytes = UUIDs.toBytes(namespace);
+        this.namespace = UUIDs.toBytes(namespace);
     }
 
     @Override
@@ -57,14 +78,30 @@ public class V5 extends AbstractGenerator {
         return of(name);
     }
 
+    /**
+     * Generate UUIDv5 with name
+     *
+     * @param name name
+     * @return UUIDv5
+     */
     public UUID of(byte[] name) {
         MessageDigest md = _ctx.messageDigest.apply("SHA1");
-        md.update(_bytes);
+        md.update(namespace);
         md.update(name);
         byte[] digest = md.digest();
         md.reset();
         digest = Bytes.copyOf(digest, 16);
         return UuidBuilder.fromSha1Bytes(digest).build();
+    }
+
+    /**
+     * Generate UUIDv3 with UTF-8 name
+     *
+     * @param name UTF-8 string name
+     * @return UUIDv3
+     */
+    public UUID of(String name) {
+        return of(name.getBytes(StandardCharsets.UTF_8));
     }
 
 }

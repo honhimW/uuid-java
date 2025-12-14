@@ -38,26 +38,58 @@ public class Context {
         return new Builder();
     }
 
+    /**
+     * Build a new UUIDv1 generator with current context.
+     *
+     * @return UUIDv1 generator
+     */
     public V1 v1() {
         return new V1(this);
     }
 
+    /**
+     * Build a new UUIDv3 generator with current context.
+     *
+     * @param namespace UUIDv3 namespace
+     * @return UUIDv3 generator
+     */
     public V3 v3(UUID namespace) {
         return new V3(this, namespace);
     }
 
+    /**
+     * Build a new UUIDv4 generator with current context.
+     *
+     * @return UUIDv4 generator
+     */
     public V4 v4() {
         return new V4(this);
     }
 
+    /**
+     * Build a new UUIDv5 generator with current context.
+     *
+     * @param namespace UUIDv5 namespace
+     * @return UUIDv5 generator
+     */
     public V5 v5(UUID namespace) {
         return new V5(this, namespace);
     }
 
+    /**
+     * Build a new UUIDv6 generator with current context.
+     *
+     * @return UUIDv6 generator
+     */
     public V6 v6() {
         return new V6(this);
     }
 
+    /**
+     * Build a new UUIDv7 generator with current context.
+     *
+     * @return UUIDv7 generator
+     */
     public V7 v7() {
         return new V7(this);
     }

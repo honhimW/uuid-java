@@ -11,6 +11,14 @@ import java.util.UUID;
 
 public interface Generator {
 
+    /**
+     * No-args UUID generation.
+     * <p>
+     * For time-based generator, using current timestamp.
+     * <p>
+     * For name-based generator, using random bytes.
+     * @return random uuid
+     */
     UUID next();
 
 }

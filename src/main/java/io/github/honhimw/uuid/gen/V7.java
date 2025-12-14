@@ -9,7 +9,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 
 /**
+ * <a href="https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7">Version 7</a>
+ * UUIDv7 generator.
+ *
  * @author honhimW
+ * @see Version#SORT_RANDOM
  * @since 2025-12-09
  */
 
@@ -33,6 +37,12 @@ public class V7 extends AbstractGenerator {
         return of(now);
     }
 
+    /**
+     * Generate UUIDv7 with timestamp
+     *
+     * @param ts     UUIDv7 timestamp
+     * @return UUIDv7
+     */
     public UUID of(Timestamp ts) {
         long counter = ts.counter;
         int counterBits = ts.usableCounterBits;
@@ -56,6 +66,12 @@ public class V7 extends AbstractGenerator {
         return UuidBuilder.fromUnixTimestampMillis(millis, high, low).build();
     }
 
+    /**
+     * Resolve and decode UUIDv7 timestamp by current settings.
+     *
+     * @param uuid UUIDv7 encoded uuid
+     * @return timestamp
+     */
     public Timestamp resolveTimestamp(UUID uuid) {
         if (Version.SORT_RANDOM.match(uuid)) {
             Bytes bb = new Bytes(UUIDs.toBytes(uuid));
@@ -97,6 +113,9 @@ public class V7 extends AbstractGenerator {
         throw new IllegalArgumentException(String.format("UUID version %d is not supported by current Type.", uuid.version()));
     }
 
+    /**
+     * UUIDv7 ClockSequence with reseeding timestamp.
+     */
     public static class ClockSequenceV7 implements ClockSequence {
         private static final long RESEED_MASK = Long.MAX_VALUE >> 22;
         private static final long MAX_COUNTER = Long.MAX_VALUE >> 21;

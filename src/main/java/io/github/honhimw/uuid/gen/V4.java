@@ -6,7 +6,11 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
+ * <a href="https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4">Version 4</a>
+ * UUIDv4 generator.
+ *
  * @author honhimW
+ * @see io.github.honhimw.uuid.Version#RANDOM
  * @since 2025-12-09
  */
 
@@ -26,7 +30,7 @@ public class V4 extends AbstractGenerator {
 
         long h = random.nextLong();
         long l = random.nextLong();
-        
+
         h &= ~0xF000L;
         h |= 4 << 12;
 
