@@ -11,7 +11,7 @@ import io.github.honhimw.uuid.gen.V7;
 
 public class V7Self extends AbstractBench {
 
-    static final V7 V7 = UUIDs.FAST.v7();
+    static final V7 V7 = UUIDs.FAST.V7;
 
     @Override
     public void run() throws Exception {

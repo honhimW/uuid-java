@@ -3,6 +3,8 @@ package io.github.honhimw.uuid;
 import java.util.UUID;
 
 /**
+ * UUID variant.
+ * 64-bits
  * @author honhimW
  * @since 2025-12-09
  */
@@ -41,6 +43,18 @@ public enum Variant {
                 return FUTURE;
             default:
                 throw new IllegalArgumentException("Unknown variant value: " + variant);
+        }
+    }
+
+    public static Variant of(byte b) {
+        if ((b & 0x80) == 0x00) {
+            return Variant.NCS;
+        } else if ((b & 0xC0) == 0x80) {
+            return Variant.RFC4122;
+        } else if ((b & 0xE0) == 0xC0) {
+            return Variant.MICROSOFT;
+        } else {
+            return Variant.FUTURE;
         }
     }
 

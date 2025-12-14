@@ -1,6 +1,11 @@
 # UUID Generator
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.honhimw/uuid-java.svg)](https://central.sonatype.com/artifact/io.github.honhimw/uuid-java)
+
 ## Usage
+```groovy
+implementation 'io.github.honhimw:uuid-java:{latest}'
+```
 
 ```java
 import io.github.honhimw.uuid.*;
@@ -9,7 +14,7 @@ void main() {
     // Using via global shared instances.
     Generator generator = UUIDs
         .FAST  // FAST | SECURE default configuration
-        .v1(); // v1 | v3 | v4 | v5 | v6 | v7
+        .V7; // V1 | V3 | V4 | V5 | V6 | V7
     UUID uuid = generator.next(); // Generation
 
     // Customize generator

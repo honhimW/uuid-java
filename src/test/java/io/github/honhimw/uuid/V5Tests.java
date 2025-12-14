@@ -18,7 +18,7 @@ public class V5Tests {
     @Test
     @SneakyThrows
     void random() {
-        UUID uuid = UUIDs.FAST.v5().next();
+        UUID uuid = UUIDs.FAST.V5.next();
         Assertions.assertEquals(5, uuid.version());
         Assertions.assertEquals(2, uuid.variant());
     }

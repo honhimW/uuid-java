@@ -5,7 +5,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
+ * Feature full UUID. Compatible with all versions.
+ * {@link UUID#timestamp()}, {@link UUID#clockSequence()} ()}, {@link UUID#node()} are only support UUIDv1.
+ *
  * @author honhimW
+ * @see UUID
  * @since 2025-12-09
  */
 
@@ -39,16 +43,7 @@ public class Uuid implements Serializable, Comparable<Uuid> {
     }
 
     public Variant variant() {
-        byte b = bb.get(8);
-        if ((b & 0x80) == 0x00) {
-            return Variant.NCS;
-        } else if ((b & 0xC0) == 0x80) {
-            return Variant.RFC4122;
-        } else if ((b & 0xE0) == 0xC0) {
-            return Variant.MICROSOFT;
-        } else {
-            return Variant.FUTURE;
-        }
+        return Variant.of(bb.get(8));
     }
 
     public Version version() {

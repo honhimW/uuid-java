@@ -13,7 +13,7 @@ public class V3Self extends AbstractBench {
 
     @Override
     public void run() throws Exception {
-        UUIDs.FAST.v3().of(Fixtures.NAME);
+        UUIDs.FAST.V3.of(Fixtures.NAME);
     }
 
 }

@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
+ * Time based UUID timestamp context.
+ *
  * @author honhimW
  * @since 2025-12-08
  */

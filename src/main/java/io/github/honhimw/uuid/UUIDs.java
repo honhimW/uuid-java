@@ -11,6 +11,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 
 /**
+ * Prelude
+ *
  * @author honhimW
  * @since 2025-12-09
  */

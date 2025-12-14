@@ -11,6 +11,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
+ * UUID generator context.
+ *
  * @author honhimW
  * @since 2025-12-09
  */

@@ -8,6 +8,8 @@ import java.util.Enumeration;
 import java.util.Objects;
 
 /**
+ * Mac address resolver, using mac address as node-id by default in UUID-v1 & UUID-v6.
+ *
  * @author honhimW
  * @since 2025-12-09
  */

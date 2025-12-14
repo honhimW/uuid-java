@@ -22,7 +22,7 @@ public class V7Tests {
     void random() {
         for (int i = 0; i < 1000; i++) {
 
-            UUID uuid = UUIDs.FAST.v7().next();
+            UUID uuid = UUIDs.FAST.V7.next();
             Assertions.assertEquals(7, uuid.version());
             Assertions.assertEquals(2, uuid.variant());
         }

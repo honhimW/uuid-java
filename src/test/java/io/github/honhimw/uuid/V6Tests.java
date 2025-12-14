@@ -19,7 +19,7 @@ public class V6Tests {
     @Test
     @SneakyThrows
     void random() {
-        UUID uuid = UUIDs.FAST.v6().next();
+        UUID uuid = UUIDs.FAST.V6.next();
         Assertions.assertEquals(6, uuid.version());
         Assertions.assertEquals(2, uuid.variant());
     }

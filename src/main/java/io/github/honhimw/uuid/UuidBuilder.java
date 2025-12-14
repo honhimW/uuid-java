@@ -3,6 +3,8 @@ package io.github.honhimw.uuid;
 import java.util.UUID;
 
 /**
+ * UUID builder for modifying version an variant.
+ *
  * @author honhimW
  * @since 2025-12-08
  */

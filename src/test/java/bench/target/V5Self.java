@@ -13,7 +13,7 @@ public class V5Self extends AbstractBench {
 
     @Override
     public void run() throws Exception {
-        UUIDs.FAST.v5().of(Fixtures.NAME);
+        UUIDs.FAST.V5.of(Fixtures.NAME);
     }
 
 }

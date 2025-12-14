@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Immutable
+ * Immutable 6-bytes node-id.
  *
  * @author honhimW
  * @since 2025-12-08

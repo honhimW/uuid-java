@@ -12,7 +12,7 @@ public class V1Self extends AbstractBench {
 
     @Override
     public void run() throws Exception {
-        UUIDs.FAST.v1().next();
+        UUIDs.FAST.V1.next();
     }
 
 }
