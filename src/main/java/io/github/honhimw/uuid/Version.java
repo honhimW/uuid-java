@@ -2,15 +2,12 @@ package io.github.honhimw.uuid;
 
 import java.util.UUID;
 
-/**
- * UUID version
- * <p>
- * 48-51 bits
- *
- * @author honhimW
- * @since 2025-12-09
- */
-
+/// UUID version
+///
+/// 48-51 bits
+///
+/// @author honhimW
+/// @since 2025-12-09
 public enum Version {
 
     NIL(0),

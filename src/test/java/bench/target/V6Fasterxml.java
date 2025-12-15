@@ -4,11 +4,8 @@ import bench.AbstractBench;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.NoArgGenerator;
 
-/**
- * @author honhimW
- * @since 2025-12-10
- */
-
+/// @author honhimW
+/// @since 2025-12-10
 public class V6Fasterxml extends AbstractBench {
 
     static final NoArgGenerator GENERATOR = Generators.timeBasedReorderedGenerator();

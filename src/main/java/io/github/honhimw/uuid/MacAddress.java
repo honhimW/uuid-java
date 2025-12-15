@@ -7,29 +7,22 @@ import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.Objects;
 
-/**
- * Mac address resolver, using mac address as node-id by default in UUID-v1 and UUID-v6.
- *
- * @author honhimW
- * @since 2025-12-09
- */
-
+/// Mac address resolver, using mac address as node-id by default in UUID-v1 and UUID-v6.
+///
+/// @author honhimW
+/// @since 2025-12-09
 public class MacAddress {
 
     private static volatile byte @Nullable [] MAC_ADDRESS;
 
-    /**
-     * Get first mac address as NodeId
-     * @return mac address
-     */
+    /// Get first mac address as NodeId
+    /// @return mac address
     public static NodeId nodeId() {
         return NodeId.of(tryGetFirst());
     }
 
-    /**
-     * Get first hardware address via network interface
-     * @return 6-bytes hardware address
-     */
+    /// Get first hardware address via network interface
+    /// @return 6-bytes hardware address
     public static byte[] tryGetFirst() {
         if (MAC_ADDRESS == null) {
             synchronized (MacAddress.class) {
@@ -57,11 +50,9 @@ public class MacAddress {
         return Objects.requireNonNull(MAC_ADDRESS);
     }
 
-    /**
-     * Setter for MAC_ADDRESS
-     * @see #MAC_ADDRESS
-     * @param macAddress mac address
-     */
+    /// Setter for MAC_ADDRESS
+    /// @see #MAC_ADDRESS
+    /// @param macAddress mac address
     public static void prefer(byte[] macAddress) {
         if (macAddress.length != 6) {
             throw new IllegalArgumentException("Mac address length must be 6 bytes");

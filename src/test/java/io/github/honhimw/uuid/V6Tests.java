@@ -9,11 +9,8 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * @author honhimW
- * @since 2025-12-08
- */
-
+/// @author honhimW
+/// @since 2025-12-08
 public class V6Tests {
 
     @Test

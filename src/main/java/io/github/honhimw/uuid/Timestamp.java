@@ -6,27 +6,22 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * Time based UUID timestamp context.
- *
- * @author honhimW
- * @since 2025-12-08
- */
-
+/// Time based UUID timestamp context.
+///
+/// @author honhimW
+/// @since 2025-12-08
 public class Timestamp implements Comparable<Timestamp>, Serializable {
 
-    /**
-     * unix epoch second
-     */
+    /// unix epoch second
     public final long seconds;
 
-    /**
-     * unix nano seconds
-     */
+    /// unix nano seconds
     public final int nanos;
 
+    /// clock sequence
     public final long counter;
 
+    /// counter bit length in uuid
     public final int usableCounterBits;
 
     public Timestamp(long seconds, int nanos, long counter, int usableCounterBits) {
@@ -75,10 +70,16 @@ public class Timestamp implements Comparable<Timestamp>, Serializable {
         return new Timestamp(instant.getEpochSecond(), instant.getNano(), counter, 14);
     }
 
+    /// Coordinated Universal Time (UTC) as a count of 100-nanosecond intervals since 00:00:00.00, 15 October 1582
     public static final long TICKS_OFFSET = 0x01B2_1DD2_1381_4000L;
     public static final long SECOND_MULTIPLIER = 10_000_000L;
     public static final long NANO_MULTIPLIER = 100L;
 
+    /// Unix timestamp to gregorian calendar tickets
+    ///
+    /// @param seconds unix seconds
+    /// @param nanos   unix nanoseconds
+    /// @return gregorian calendar tickets
     public static long unix2Gregorian(long seconds, int nanos) {
         long ticks = TICKS_OFFSET;
         ticks += seconds * SECOND_MULTIPLIER;
@@ -86,6 +87,10 @@ public class Timestamp implements Comparable<Timestamp>, Serializable {
         return ticks;
     }
 
+    /// Gregorian calendar tickets to unix timestamp
+    ///
+    /// @param ticks gregorian calendar tickets
+    /// @return gregorian calendar tickets
     public static Instant gregorian2unix(long ticks) {
         ticks -= TICKS_OFFSET;
         long seconds = ticks / SECOND_MULTIPLIER;

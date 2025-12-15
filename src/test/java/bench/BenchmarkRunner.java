@@ -15,11 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * @author honhimW
- * @since 2025-12-09
- */
-
+/// @author honhimW
+/// @since 2025-12-09
 public class BenchmarkRunner {
 
     private static final List<RunResult> RESULTS = new ArrayList<>();

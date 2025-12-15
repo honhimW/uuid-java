@@ -4,11 +4,8 @@ import org.openjdk.jmh.annotations.*;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author honhimW
- * @since 2025-12-10
- */
-
+/// @author honhimW
+/// @since 2025-12-10
 @State(Scope.Benchmark)
 public abstract class AbstractBench {
 

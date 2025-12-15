@@ -4,11 +4,8 @@ import bench.AbstractBench;
 import io.github.honhimw.uuid.UUIDs;
 import io.github.honhimw.uuid.gen.V7;
 
-/**
- * @author honhimW
- * @since 2025-12-10
- */
-
+/// @author honhimW
+/// @since 2025-12-10
 public class V7Self extends AbstractBench {
 
     static final V7 V7 = UUIDs.FAST.V7;

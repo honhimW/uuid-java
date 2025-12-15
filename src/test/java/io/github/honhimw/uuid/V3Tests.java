@@ -8,11 +8,8 @@ import org.junit.jupiter.api.Test;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-/**
- * @author honhimW
- * @since 2025-12-08
- */
-
+/// @author honhimW
+/// @since 2025-12-08
 public class V3Tests {
 
     @Test

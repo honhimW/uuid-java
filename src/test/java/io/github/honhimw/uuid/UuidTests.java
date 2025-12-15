@@ -13,11 +13,8 @@ import java.security.MessageDigest;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * @author honhimW
- * @since 2025-12-09
- */
-
+/// @author honhimW
+/// @since 2025-12-09
 public class UuidTests {
 
     @Test

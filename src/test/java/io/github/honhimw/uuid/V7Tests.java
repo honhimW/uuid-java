@@ -10,11 +10,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * @author honhimW
- * @since 2025-12-08
- */
-
+/// @author honhimW
+/// @since 2025-12-08
 public class V7Tests {
 
     @Test

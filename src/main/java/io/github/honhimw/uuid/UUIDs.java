@@ -10,13 +10,10 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 
-/**
- * Prelude
- *
- * @author honhimW
- * @since 2025-12-09
- */
-
+/// Prelude
+///
+/// @author honhimW
+/// @since 2025-12-09
 public class UUIDs {
 
     /// UUID namespace

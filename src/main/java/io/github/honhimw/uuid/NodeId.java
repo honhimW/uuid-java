@@ -3,17 +3,20 @@ package io.github.honhimw.uuid;
 import java.util.Arrays;
 import java.util.Objects;
 
-/**
- * Immutable 6-bytes node-id.
- *
- * @author honhimW
- * @since 2025-12-08
- */
-
+/// Immutable 6-bytes node-id.
+///
+/// @author honhimW
+/// @since 2025-12-08
 public class NodeId {
 
     private final byte[] nodeId;
 
+    /// Creates a new [NodeId] using the first six bytes of the given array.
+    ///
+    /// If the array has fewer than six bytes, the remaining positions are filled with zeros.
+    ///
+    /// @param nodeId source
+    /// @return top six bytes of given array
     public static NodeId of(byte[] nodeId) {
         byte[] _bytes = new byte[6];
         int len = Math.min(nodeId.length, _bytes.length);
@@ -25,12 +28,11 @@ public class NodeId {
         this.nodeId = nodeId;
     }
 
+    /// Get node id array
+    ///
+    /// @return byte array
     public byte[] unwrap() {
         return nodeId;
-    }
-
-    public byte get(int index) {
-        return nodeId[index];
     }
 
     @Override

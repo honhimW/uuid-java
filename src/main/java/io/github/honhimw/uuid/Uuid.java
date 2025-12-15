@@ -4,27 +4,37 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * Feature full UUID. Compatible with all versions.
- * {@link UUID#timestamp()}, {@link UUID#clockSequence()} ()}, {@link UUID#node()} are only support UUIDv1.
- *
- * @author honhimW
- * @see UUID
- * @since 2025-12-09
- */
-
+/// Feature full UUID. Compatible with all versions.
+/// [UUID#timestamp()], [UUID#clockSequence()] ()}, [UUID#node()] are only support UUIDv1.
+///
+/// @author honhimW
+/// @see UUID
+/// @since 2025-12-09
 public class Uuid implements Serializable, Comparable<Uuid> {
 
+    /// Create new Uuid from JDK UUID
+    ///
+    /// @param uuid uuid
+    /// @return Uuid
     public static Uuid fromUUID(UUID uuid) {
         return fromPair(uuid.getMostSignificantBits(), uuid.getLeastSignificantBits());
     }
 
+    /// Create new Uuid from byte array
+    ///
+    /// @param bytes 16-bytes array
+    /// @return Uuid
     public static Uuid fromBytes(byte[] bytes) {
         Bytes bb = new Bytes(16);
         bb.put(bytes);
         return new Uuid(bb);
     }
 
+    /// Create new Uuid from long values pair
+    ///
+    /// @param m high bytes
+    /// @param l low bytes
+    /// @return Uuid
     public static Uuid fromPair(long m, long l) {
         Bytes bb = new Bytes(16);
         bb.putLong(m);
@@ -32,6 +42,10 @@ public class Uuid implements Serializable, Comparable<Uuid> {
         return new Uuid(bb);
     }
 
+    /// Create new Uuid from uuid string value
+    ///
+    /// @param s formatted uuid string
+    /// @return Uuid
     public static Uuid fromString(String s) {
         return fromUUID(UUID.fromString(s));
     }
@@ -42,14 +56,25 @@ public class Uuid implements Serializable, Comparable<Uuid> {
         this.bb = bb;
     }
 
+    /// The variant number of current Uuid
+    ///
+    /// @return Variant enum
     public Variant variant() {
         return Variant.of(bb.get(8));
     }
 
+    /// The version number of current Uuid
+    ///
+    /// @return Version enum
     public Version version() {
         return Version.of(bb.get(6));
     }
 
+    /// The timestamp of current Uuid
+    ///
+    /// Only [Version#MAC] and [Version#SORT_MAC] and [Version#SORT_RANDOM] is available
+    ///
+    /// @return optional timestamp of current Uuid
     public Optional<Timestamp> timestamp() {
         Timestamp timestamp = null;
         switch (version()) {
@@ -111,6 +136,11 @@ public class Uuid implements Serializable, Comparable<Uuid> {
         return Optional.ofNullable(timestamp);
     }
 
+    /// The node-id of current Uuid
+    ///
+    /// Only [Version#MAC] and [Version#SORT_MAC] is available
+    ///
+    /// @return optional node-id of current Uuid
     public Optional<NodeId> node() {
         switch (version()) {
             case MAC:
@@ -121,18 +151,30 @@ public class Uuid implements Serializable, Comparable<Uuid> {
         return Optional.empty();
     }
 
+    /// Convert current Uuid as JDK UUID
+    ///
+    /// @return JDK UUID
     public UUID asUUID() {
         return new UUID(bb.getLong(0), bb.getLong(Long.BYTES));
     }
 
+    /// Convert current Uuid as 16-bytes array
+    ///
+    /// @return 16-bytes array
     public byte[] asBytes() {
         return bb.unwrap();
     }
 
+    /// Convert current Uuid as UUID-formatted string
+    ///
+    /// @return UUID-formatted string
     public String asString() {
         return asUUID().toString();
     }
 
+    /// Convert current Uuid as UUID-formatted string
+    ///
+    /// @return UUID-formatted string
     @Override
     public String toString() {
         return asString();

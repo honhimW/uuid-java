@@ -6,11 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-/**
- * @author honhimW
- * @since 2025-12-08
- */
-
+/// @author honhimW
+/// @since 2025-12-08
 public class V4Tests {
 
     @Test

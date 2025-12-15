@@ -7,11 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * @author honhimW
- * @since 2025-12-12
- */
-
+/// @author honhimW
+/// @since 2025-12-12
 public class BytesTests {
 
     @Test

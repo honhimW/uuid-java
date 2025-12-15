@@ -4,11 +4,8 @@ import bench.AbstractBench;
 import bench.Fixtures;
 import io.github.honhimw.uuid.UUIDs;
 
-/**
- * @author honhimW
- * @since 2025-12-10
- */
-
+/// @author honhimW
+/// @since 2025-12-10
 public class V3Self extends AbstractBench {
 
     @Override

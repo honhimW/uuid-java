@@ -9,11 +9,8 @@ import io.github.honhimw.uuid.UUIDs;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * @author honhimW
- * @since 2025-12-10
- */
-
+/// @author honhimW
+/// @since 2025-12-10
 public class V5Fasterxml extends AbstractBench {
 
     static final StringArgGenerator GENERATOR;
