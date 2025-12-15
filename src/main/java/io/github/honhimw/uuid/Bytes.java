@@ -305,9 +305,8 @@ public class Bytes implements Serializable, Comparable<Bytes> {
      * @return next index
      */
     public static int put(byte[] dist, int index, byte[] value) {
-        for (byte b : value) {
-            dist[index] = b;
-            index += 1;
+        for (int i = 0; i < value.length; i++, index++) {
+            dist[index] = value[i];
         }
         return index;
     }
@@ -323,9 +322,8 @@ public class Bytes implements Serializable, Comparable<Bytes> {
      * @return next index
      */
     public static int put(byte[] dist, int index, byte[] value, int offset, int length) {
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++, index++) {
             dist[index] = value[i + offset];
-            index += 1;
         }
         return index;
     }

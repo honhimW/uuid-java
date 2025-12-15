@@ -47,16 +47,14 @@ public class Uuid implements Serializable, Comparable<Uuid> {
     }
 
     public Version version() {
-        return Version.of(bb.get(6) >> 4);
+        return Version.of(bb.get(6));
     }
 
     public Optional<Timestamp> timestamp() {
         Timestamp timestamp = null;
-        long ticks;
-        long counter;
         switch (version()) {
-            case MAC:
-                ticks = (Byte.toUnsignedLong(bb.get(6)) & 0x0F) << 56;
+            case MAC: {
+                long ticks = (Byte.toUnsignedLong(bb.get(6)) & 0x0F) << 56;
                 ticks |= (Byte.toUnsignedLong(bb.get(7))) << 48;
                 ticks |= (Byte.toUnsignedLong(bb.get(4))) << 40;
                 ticks |= (Byte.toUnsignedLong(bb.get(5))) << 32;
@@ -65,13 +63,14 @@ public class Uuid implements Serializable, Comparable<Uuid> {
                 ticks |= (Byte.toUnsignedLong(bb.get(2))) << 8;
                 ticks |= Byte.toUnsignedLong(bb.get(3));
 
-                counter = (bb.get(8) & 0x3F) << 8;
+                long counter = (bb.get(8) & 0x3F) << 8;
                 counter |= Byte.toUnsignedLong(bb.get(9));
 
                 timestamp = Timestamp.fromGregorian(ticks, counter);
                 break;
-            case SORT_MAC:
-                ticks = (Byte.toUnsignedLong(bb.get(0))) << 52;
+            }
+            case SORT_MAC: {
+                long ticks = (Byte.toUnsignedLong(bb.get(0))) << 52;
                 ticks |= (Byte.toUnsignedLong(bb.get(1))) << 44;
                 ticks |= (Byte.toUnsignedLong(bb.get(2))) << 36;
                 ticks |= (Byte.toUnsignedLong(bb.get(3))) << 28;
@@ -80,12 +79,14 @@ public class Uuid implements Serializable, Comparable<Uuid> {
                 ticks |= (Byte.toUnsignedLong(bb.get(6)) & 0xF) << 8;
                 ticks |= Byte.toUnsignedLong(bb.get(7));
 
-                counter = (Byte.toUnsignedLong(bb.get(8)) & 0x3F) << 8;
+                long counter = (Byte.toUnsignedLong(bb.get(8)) & 0x3F) << 8;
                 counter |= Byte.toUnsignedLong(bb.get(9));
 
                 timestamp = Timestamp.fromGregorian(ticks, counter);
                 break;
-            case SORT_RANDOM:
+            }
+            case SORT_RANDOM: {
+                UUIDs.FAST.V7.resolveTimestamp(asUUID());
                 long millis = (Byte.toUnsignedLong(bb.get(0)) & 0x0F) << 40;
                 millis |= (Byte.toUnsignedLong(bb.get(1))) << 32;
                 millis |= (Byte.toUnsignedLong(bb.get(2))) << 24;
@@ -96,7 +97,7 @@ public class Uuid implements Serializable, Comparable<Uuid> {
                 long seconds = millis / 1000;
                 int nanos = (int) (millis % 1000) * 1_000_000;
 
-                counter = (Byte.toUnsignedLong(bb.get(6)) & 0xF) << 38;
+                long counter = (Byte.toUnsignedLong(bb.get(6)) & 0xF) << 38;
                 counter |= (Byte.toUnsignedLong(bb.get(7))) << 30;
                 counter |= (Byte.toUnsignedLong(bb.get(8)) & 0x3F) << 24;
                 counter |= (Byte.toUnsignedLong(bb.get(9))) << 16;
@@ -105,6 +106,7 @@ public class Uuid implements Serializable, Comparable<Uuid> {
 
                 timestamp = new Timestamp(seconds, nanos, counter, 42);
                 break;
+            }
         }
         return Optional.ofNullable(timestamp);
     }

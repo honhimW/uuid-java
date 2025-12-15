@@ -40,7 +40,7 @@ public class V7 extends AbstractGenerator {
     /**
      * Generate UUIDv7 with timestamp
      *
-     * @param ts     UUIDv7 timestamp
+     * @param ts UUIDv7 timestamp
      * @return UUIDv7
      */
     public UUID of(Timestamp ts) {
@@ -117,8 +117,8 @@ public class V7 extends AbstractGenerator {
      * UUIDv7 ClockSequence with reseeding timestamp.
      */
     public static class ClockSequenceV7 implements ClockSequence {
-        private static final long RESEED_MASK = Long.MAX_VALUE >> 22;
-        private static final long MAX_COUNTER = Long.MAX_VALUE >> 21;
+        private static final long RESEED_MASK = -1L >>> 23;
+        private static final long MAX_COUNTER = -1L >>> 22;
 
         private final ReseedingTimestamp timestamp;
         private Precision precision;
@@ -218,7 +218,7 @@ public class V7 extends AbstractGenerator {
         private Precision(int usableBits, int bits) {
             this.bits = bits;
             this.factor = (int) (999_999 / (bits >= 1 ? (2L << (bits - 1)) : 1)) + 1;
-            this.mask = -1 >>> (Long.SIZE - usableBits + bits);
+            this.mask = -1L >>> (Long.SIZE - usableBits + bits);
             this.shift = usableBits - bits;
         }
 

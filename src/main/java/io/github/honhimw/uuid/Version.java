@@ -35,6 +35,10 @@ public enum Version {
         return value;
     }
 
+    public boolean match(UUID uuid) {
+        return uuid.version() == this.value;
+    }
+
     public static Version of(UUID uuid) {
         return of(uuid.version());
     }
@@ -66,8 +70,8 @@ public enum Version {
         }
     }
 
-    public boolean match(UUID uuid) {
-        return uuid.version() == this.value;
+    public static Version of(byte b) {
+        return of(b >>> 4);
     }
 
 }

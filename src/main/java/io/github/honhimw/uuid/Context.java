@@ -2,6 +2,8 @@ package io.github.honhimw.uuid;
 
 import io.github.honhimw.uuid.gen.*;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
@@ -19,15 +21,33 @@ import java.util.function.Supplier;
 
 public class Context {
 
+    /**
+     * Name based UUID generator string name charset.
+     */
+    public final Charset charset;
+
+    /**
+     * UUID clock sequence generator.
+     */
     public final ClockSequence clockSequence;
 
+    /**
+     * Random provider.
+     */
     public final Supplier<Random> random;
 
+    /**
+     * Message digest provider.
+     */
     public final Function<String, MessageDigest> messageDigest;
 
+    /**
+     * Node id provider.
+     */
     public final Supplier<NodeId> node;
 
-    private Context(ClockSequence clockSequence, Supplier<Random> random, Function<String, MessageDigest> messageDigest, Supplier<NodeId> node) {
+    private Context(Charset charset, ClockSequence clockSequence, Supplier<Random> random, Function<String, MessageDigest> messageDigest, Supplier<NodeId> node) {
+        this.charset = charset;
         this.clockSequence = clockSequence;
         this.random = random;
         this.messageDigest = messageDigest;
@@ -95,12 +115,14 @@ public class Context {
     }
 
     public static class Builder {
+        private Charset charset;
         private ClockSequence clockSequence;
         private Supplier<Random> random;
         private Function<String, MessageDigest> messageDigest;
         private Supplier<NodeId> node;
 
         private Builder() {
+            this.charset = StandardCharsets.UTF_8;
             this.clockSequence = new CounterSequence(0);
             this.random = ThreadLocalRandom::current;
             this.messageDigest = algorithm -> {
@@ -111,6 +133,11 @@ public class Context {
                 }
             };
             this.node = MacAddress::nodeId;
+        }
+
+        public Builder charset(Charset charset) {
+            this.charset = charset;
+            return this;
         }
 
         public Builder clock(ClockSequence clockSequence) {
@@ -135,11 +162,11 @@ public class Context {
 
         public Context build() {
             return new Context(
+                charset,
                 clockSequence,
                 random,
                 messageDigest,
-                node
-            );
+                node);
         }
     }
 

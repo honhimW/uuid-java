@@ -1,5 +1,5 @@
 [versions]
-version = "0.3.0"
+version = "0.3.1"
 jspecify = "1.0.0"
 junit = "5.14.1"
 central-publish = "0.35.0"

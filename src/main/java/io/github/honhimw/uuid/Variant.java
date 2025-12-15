@@ -46,6 +46,11 @@ public enum Variant {
         }
     }
 
+    /**
+     * Resolve UUID variant by sing byte.
+     * @param b the 9th byte in UUID
+     * @return UUID variant
+     */
     public static Variant of(byte b) {
         if ((b & 0x80) == 0x00) {
             return Variant.NCS;

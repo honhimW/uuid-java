@@ -1,11 +1,7 @@
 package io.github.honhimw.uuid.gen;
 
-import io.github.honhimw.uuid.Bytes;
-import io.github.honhimw.uuid.Context;
-import io.github.honhimw.uuid.UUIDs;
-import io.github.honhimw.uuid.UuidBuilder;
+import io.github.honhimw.uuid.*;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Random;
 import java.util.UUID;
@@ -19,7 +15,7 @@ import java.util.UUID;
  * @since 2025-12-09
  */
 
-public class V5 extends AbstractGenerator {
+public class V5 extends AbstractGenerator implements Generator.NameBased {
 
     private final byte[] namespace;
 
@@ -78,12 +74,6 @@ public class V5 extends AbstractGenerator {
         return of(name);
     }
 
-    /**
-     * Generate UUIDv5 with name
-     *
-     * @param name name
-     * @return UUIDv5
-     */
     public UUID of(byte[] name) {
         MessageDigest md = _ctx.messageDigest.apply("SHA1");
         md.update(namespace);
@@ -94,14 +84,8 @@ public class V5 extends AbstractGenerator {
         return UuidBuilder.fromSha1Bytes(digest).build();
     }
 
-    /**
-     * Generate UUIDv3 with UTF-8 name
-     *
-     * @param name UTF-8 string name
-     * @return UUIDv3
-     */
     public UUID of(String name) {
-        return of(name.getBytes(StandardCharsets.UTF_8));
+        return of(name.getBytes(_ctx.charset));
     }
 
 }

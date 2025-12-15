@@ -1,9 +1,6 @@
 package io.github.honhimw.uuid.gen;
 
-import io.github.honhimw.uuid.Context;
-import io.github.honhimw.uuid.NodeId;
-import io.github.honhimw.uuid.Timestamp;
-import io.github.honhimw.uuid.UuidBuilder;
+import io.github.honhimw.uuid.*;
 
 import java.util.UUID;
 
@@ -16,7 +13,7 @@ import java.util.UUID;
  * @since 2025-12-09
  */
 
-public class V6 extends AbstractGenerator {
+public class V6 extends AbstractGenerator implements Generator.TimeBased {
 
     public V6() {
     }
@@ -30,21 +27,20 @@ public class V6 extends AbstractGenerator {
         return now(_ctx.node.get());
     }
 
-    /**
-     * Generate UUID with node-id
-     *
-     * @param nodeId 6-bits node id
-     * @return UUIDv6
-     */
+    @Override
     public UUID now(NodeId nodeId) {
-        Timestamp ts = Timestamp.now(_ctx.clockSequence);
-        return UuidBuilder.fromSortedGregorian(ts, nodeId).build();
+        return of(Timestamp.now(_ctx.clockSequence), nodeId);
+    }
+
+    @Override
+    public UUID of(Timestamp ts) {
+        return of(ts, _ctx.node.get());
     }
 
     /**
-     * Generate UUIDv6 with timestamp and node-id
+     * Generate time-based UUID with timestamp and node-id
      *
-     * @param ts     UUIDv6 timestamp
+     * @param ts     UUID timestamp
      * @param nodeId node-id
      * @return UUIDv6
      */
