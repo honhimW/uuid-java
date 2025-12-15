@@ -38,9 +38,12 @@ public class MacAddress {
                         Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
                         while (netInterfaces.hasMoreElements()) {
                             NetworkInterface ni = netInterfaces.nextElement();
-                            byte[] hardwareAddress = ni.getHardwareAddress();
-                            if (hardwareAddress != null) {
-                                MAC_ADDRESS = hardwareAddress;
+                            if (!ni.isLoopback() && ni.isUp()) {
+                                byte[] hardwareAddress = ni.getHardwareAddress();
+                                if (hardwareAddress != null) {
+                                    MAC_ADDRESS = hardwareAddress;
+                                    break;
+                                }
                             }
                         }
                     } catch (SocketException ignored) {
