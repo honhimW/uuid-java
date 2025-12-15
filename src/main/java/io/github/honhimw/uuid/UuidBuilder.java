@@ -79,15 +79,15 @@ public class UuidBuilder {
     public static UuidBuilder fromGregorian(Timestamp ts, NodeId nodeId) {
         long ticks = ts.asGregorian();
         int timeLow = (int) (ticks & 0xFFFF_FFFFL);
-        short timeMid = (short) ((ticks >> 32) & 0xFFFFL);
-        short timeHighAndVersion = (short) (((ticks >> 48) & 0x0FFFL) | (1 << 12));
+        short timeMid = (short) ((ticks >>> 32) & 0xFFFFL);
+        short timeHighAndVersion = (short) (((ticks >>> 48) & 0x0FFFL) | (1 << 12));
 
         UuidBuilder builder = empty();
         builder.bytes
             .putInt(timeLow)
             .putShort(timeMid)
             .putShort(timeHighAndVersion)
-            .put((byte) (((ts.counter & 0x3F00) >> 8) | 0x80))
+            .put((byte) (((ts.counter & 0x3F00) >>> 8) | 0x80))
             .put((byte) (ts.counter & 0xFF))
             .put(nodeId.unwrap());
         return builder;
@@ -119,8 +119,8 @@ public class UuidBuilder {
 
     public static UuidBuilder fromSortedGregorian(Timestamp ts, NodeId nodeId) {
         long ticks = ts.asGregorian();
-        int timeLow = (int) ((ticks >> 28) & 0xFFFF_FFFFL);
-        short timeMid = (short) ((ticks >> 12) & 0xFFFFL);
+        int timeLow = (int) ((ticks >>> 28) & 0xFFFF_FFFFL);
+        short timeMid = (short) ((ticks >>> 12) & 0xFFFFL);
         short timeHighAndVersion = (short) ((ticks & 0x0FFFL) | (0b110 << 12));
 
         UuidBuilder builder = empty();
@@ -128,14 +128,14 @@ public class UuidBuilder {
             .putInt(timeLow)
             .putShort(timeMid)
             .putShort(timeHighAndVersion)
-            .put((byte) (((ts.counter & 0x3F00) >> 8) | 0x80))
+            .put((byte) (((ts.counter & 0x3F00) >>> 8) | 0x80))
             .put((byte) (ts.counter & 0xFF))
             .put(nodeId.unwrap());
         return builder;
     }
 
     public static UuidBuilder fromUnixTimestampMillis(long millis, long randH, int randL) {
-        int millisHigh = (int) ((millis >> 16) & 0xFFFF_FFFFL);
+        int millisHigh = (int) ((millis >>> 16) & 0xFFFF_FFFFL);
         short millisLow = (short) (millis & 0xFFFF);
         long randHighWithVersionAndVariant = randH & 0x0FFF3FFFFFFFFFFFL | 0x7000800000000000L;
         UuidBuilder builder = empty();
@@ -149,7 +149,7 @@ public class UuidBuilder {
     }
 
     public static UuidBuilder fromUnixTimestampMillis(long millis, byte[] bytes) {
-        int millisHigh = (int) ((millis >> 16) & 0xFFFF_FFFFL);
+        int millisHigh = (int) ((millis >>> 16) & 0xFFFF_FFFFL);
         short millisLow = (short) (millis & 0xFFFF);
 
         short withVersion = (short) ((bytes[1] & 0xFF) | (((bytes[0] & 0xFF) << 8) & 0x0FFF) | 0x7000);

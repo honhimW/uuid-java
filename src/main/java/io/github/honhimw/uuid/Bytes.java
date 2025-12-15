@@ -212,9 +212,9 @@ public class Bytes implements Serializable, Comparable<Bytes> {
     /// @param value value
     /// @return next index
     public static int putInt(byte[] dist, int index, int value) {
-        dist[index] = (byte) (value >> 24);
-        dist[index + 1] = (byte) (value >> 16);
-        dist[index + 2] = (byte) (value >> 8);
+        dist[index] = (byte) (value >>> 24);
+        dist[index + 1] = (byte) (value >>> 16);
+        dist[index + 2] = (byte) (value >>> 8);
         dist[index + 3] = (byte) value;
         return index + 4;
     }
@@ -226,7 +226,7 @@ public class Bytes implements Serializable, Comparable<Bytes> {
     /// @param value value
     /// @return next index
     public static int putShort(byte[] dist, int index, short value) {
-        dist[index] = (byte) (value >> 8);
+        dist[index] = (byte) (value >>> 8);
         dist[index + 1] = (byte) value;
         return index + 2;
     }
@@ -238,13 +238,13 @@ public class Bytes implements Serializable, Comparable<Bytes> {
     /// @param value value
     /// @return next index
     public static int putLong(byte[] dist, int index, long value) {
-        dist[index] = (byte) (value >> 56);
-        dist[index + 1] = (byte) (value >> 48);
-        dist[index + 2] = (byte) (value >> 40);
-        dist[index + 3] = (byte) (value >> 32);
-        dist[index + 4] = (byte) (value >> 24);
-        dist[index + 5] = (byte) (value >> 16);
-        dist[index + 6] = (byte) (value >> 8);
+        dist[index] = (byte) (value >>> 56);
+        dist[index + 1] = (byte) (value >>> 48);
+        dist[index + 2] = (byte) (value >>> 40);
+        dist[index + 3] = (byte) (value >>> 32);
+        dist[index + 4] = (byte) (value >>> 24);
+        dist[index + 5] = (byte) (value >>> 16);
+        dist[index + 6] = (byte) (value >>> 8);
         dist[index + 7] = (byte) value;
         return index + 8;
     }
