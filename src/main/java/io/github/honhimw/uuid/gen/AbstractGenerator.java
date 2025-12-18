@@ -18,6 +18,7 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     /// Construct with given context
+    ///
     /// @param context given context
     protected AbstractGenerator(Context context) {
         this._ctx = context;

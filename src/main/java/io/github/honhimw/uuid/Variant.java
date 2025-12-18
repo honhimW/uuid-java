@@ -4,6 +4,7 @@ import java.util.UUID;
 
 /// UUID variant.
 /// 64-bits
+///
 /// @author honhimW
 /// @since 2025-12-09
 public enum Variant {
@@ -44,6 +45,7 @@ public enum Variant {
     }
 
     /// Resolve UUID variant by sing byte.
+    ///
     /// @param b the 9th byte in UUID
     /// @return UUID variant
     public static Variant of(byte b) {

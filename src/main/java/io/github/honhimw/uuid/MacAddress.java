@@ -16,12 +16,14 @@ public class MacAddress {
     private static volatile byte @Nullable [] MAC_ADDRESS;
 
     /// Get first mac address as NodeId
+    ///
     /// @return mac address
     public static NodeId nodeId() {
         return NodeId.of(tryGetFirst());
     }
 
     /// Get first hardware address via network interface
+    ///
     /// @return 6-bytes hardware address
     public static byte[] tryGetFirst() {
         if (MAC_ADDRESS == null) {
@@ -51,8 +53,9 @@ public class MacAddress {
     }
 
     /// Setter for MAC_ADDRESS
-    /// @see #MAC_ADDRESS
+    ///
     /// @param macAddress mac address
+    /// @see #MAC_ADDRESS
     public static void prefer(byte[] macAddress) {
         if (macAddress.length != 6) {
             throw new IllegalArgumentException("Mac address length must be 6 bytes");

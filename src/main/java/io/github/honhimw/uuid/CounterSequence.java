@@ -16,6 +16,7 @@ public class CounterSequence implements ClockSequence {
     private final long mask;
 
     /// Construct with initial-value
+    ///
     /// @param count initial-value
     public CounterSequence(int count) {
         this.count = new AtomicLong(count);

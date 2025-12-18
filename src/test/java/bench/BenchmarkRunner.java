@@ -60,7 +60,7 @@ public class BenchmarkRunner {
             .include(V1Self.class.getSimpleName())
             .include(V1UuidCreator.class.getSimpleName())
             .include(V1Fasterxml.class.getSimpleName())
-            .threads(8)
+            .threads(6)
             .forks(1)
             .build();
 
@@ -74,7 +74,7 @@ public class BenchmarkRunner {
             .include(V3Self.class.getSimpleName())
             .include(V3UuidCreator.class.getSimpleName())
             .include(V3Fasterxml.class.getSimpleName())
-            .threads(8)
+            .threads(6)
             .forks(1)
             .build();
 
@@ -89,7 +89,7 @@ public class BenchmarkRunner {
             .include(V4UuidCreator.class.getSimpleName())
             .include(V4Fasterxml.class.getSimpleName())
             .include(V4Jdk.class.getSimpleName())
-            .threads(8)
+            .threads(6)
             .forks(1)
             .build();
 
@@ -103,7 +103,7 @@ public class BenchmarkRunner {
             .include(V5Self.class.getSimpleName())
             .include(V5UuidCreator.class.getSimpleName())
             .include(V5Fasterxml.class.getSimpleName())
-            .threads(8)
+            .threads(6)
             .forks(1)
             .build();
 
@@ -117,7 +117,7 @@ public class BenchmarkRunner {
             .include(V6Self.class.getSimpleName())
             .include(V6UuidCreator.class.getSimpleName())
             .include(V6Fasterxml.class.getSimpleName())
-            .threads(8)
+            .threads(6)
             .forks(1)
             .build();
 
@@ -132,7 +132,7 @@ public class BenchmarkRunner {
             .include(V7Self.class.getSimpleName())
             .include(V7UuidCreator.class.getSimpleName())
             .include(V7Fasterxml.class.getSimpleName())
-            .threads(8)
+            .threads(6)
             .forks(1)
             .build();
 
