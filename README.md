@@ -3,6 +3,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.honhimw/uuid-java.svg)](https://central.sonatype.com/artifact/io.github.honhimw/uuid-java)
 
 ## Usage
+
 ```groovy
 implementation 'io.github.honhimw:uuid-java:{latest}'
 ```
@@ -10,6 +11,7 @@ implementation 'io.github.honhimw:uuid-java:{latest}'
 ```java
 import io.github.honhimw.uuid.*;
 import io.github.honhimw.uuid.gen.*;
+
 void main() {
     // Using via global shared instances.
     Generator generator = UUIDs
@@ -44,26 +46,26 @@ void main() {
 
 | Name          |       Score(thrpt) |
 |---------------|-------------------:|
-| V1Fasterxml   |    9885.222 ops/ms |
-| V1Self        |  297450.331 ops/ms |
-| V1UuidCreator |   38422.519 ops/ms |
-| V3Fasterxml   |    5724.019 ops/ms |
-| V3Self        |   40946.284 ops/ms |
-| V3UuidCreator |   43344.585 ops/ms |
-| V4Fasterxml   | 3972463.887 ops/ms |
-| V4Jdk         |     814.632 ops/ms |
-| V4Self        | 3376319.678 ops/ms |
-| V4UuidCreator |   44105.475 ops/ms |
-| V5Fasterxml   |    2580.088 ops/ms |
-| V5Self        |   21503.773 ops/ms |
-| V5UuidCreator |   20561.813 ops/ms |
-| V6Fasterxml   |    9888.172 ops/ms |
-| V6Self        |  283465.495 ops/ms |
-| V6UuidCreator |   38232.100 ops/ms |
-| V7Fasterxml   |   29296.055 ops/ms |
-| V7Fastest     | 1595986.093 ops/ms |
-| V7Self        | 1046789.720 ops/ms |
-| V7UuidCreator |   18271.016 ops/ms |
+| V1Fasterxml   |    9887.780 ops/ms |
+| V1Self        |  261844.990 ops/ms |
+| V1UuidCreator |   36179.278 ops/ms |
+| V3Fasterxml   |    7027.750 ops/ms |
+| V3Self        |   57394.957 ops/ms |
+| V3UuidCreator |   42964.542 ops/ms |
+| V4Fasterxml   | 3006616.633 ops/ms |
+| V4Jdk         |    1027.490 ops/ms |
+| V4Self        | 3022930.708 ops/ms |
+| V4UuidCreator |   43633.409 ops/ms |
+| V5Fasterxml   |    3349.892 ops/ms |
+| V5Self        |   26425.357 ops/ms |
+| V5UuidCreator |   22710.366 ops/ms |
+| V6Fasterxml   |    9893.974 ops/ms |
+| V6Self        |  266092.569 ops/ms |
+| V6UuidCreator |   34884.844 ops/ms |
+| V7Fasterxml   |   30225.132 ops/ms |
+| V7Fastest     | 1277599.442 ops/ms |
+| V7Self        | 1028503.228 ops/ms |
+| V7UuidCreator |   20101.737 ops/ms |
 
 </details>
 

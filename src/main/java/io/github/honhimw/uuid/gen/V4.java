@@ -46,11 +46,11 @@ public class V4 extends AbstractGenerator {
         long h = random.nextLong();
         long l = random.nextLong();
 
-        h &= ~0xF000L;
+        h &= ~(0xFL << 12);
         h |= 4 << 12;
 
         l = (l << 2) >>> 2;
-        l |= (2L << 62);
+        l |= 2L << 62;
 
         return new UUID(h, l);
     }

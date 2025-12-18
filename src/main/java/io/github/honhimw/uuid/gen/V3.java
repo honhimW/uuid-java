@@ -1,12 +1,11 @@
 package io.github.honhimw.uuid.gen;
 
 import io.github.honhimw.uuid.Context;
-import io.github.honhimw.uuid.Generator;
 import io.github.honhimw.uuid.UUIDs;
 import io.github.honhimw.uuid.UuidBuilder;
+import org.jspecify.annotations.Nullable;
 
 import java.security.MessageDigest;
-import java.util.Random;
 import java.util.UUID;
 
 /// [Version 3](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-3)
@@ -33,9 +32,7 @@ import java.util.UUID;
 /// @author honhimW
 /// @see io.github.honhimw.uuid.Version#MD5
 /// @since 2025-12-09
-public class V3 extends AbstractGenerator implements Generator.NameBased {
-
-    private final byte[] namespace;
+public class V3 extends AbstractNameBasedGenerator {
 
     public static V3 dns() {
         return new V3(UUIDs.NAMESPACE_DNS);
@@ -53,35 +50,24 @@ public class V3 extends AbstractGenerator implements Generator.NameBased {
         return new V3(UUIDs.NAMESPACE_X500);
     }
 
-    public V3(UUID namespace) {
-        super();
-        this.namespace = UUIDs.toBytes(namespace);
+    public V3(@Nullable UUID namespace) {
+        super(namespace);
     }
 
-    public V3(Context context, UUID namespace) {
-        super(context);
-        this.namespace = UUIDs.toBytes(namespace);
+    public V3(Context context, @Nullable UUID namespace) {
+        super(context, namespace);
     }
 
     @Override
-    public UUID next() {
-        Random random = _ctx.random.get();
-        int len = random.ints(64, 512).findFirst().orElse(64);
-        byte[] name = new byte[len];
-        random.nextBytes(name);
-        return of(name);
+    protected String algorithm() {
+        return "MD5";
     }
 
+    @Override
     public UUID of(byte[] name) {
-        MessageDigest md = _ctx.messageDigest.apply("MD5");
-        md.update(namespace);
-        md.update(name);
-        byte[] digest = md.digest();
-        md.reset();
+        MessageDigest md = getDigester();
+        byte[] digest = md.digest(name);
         return UuidBuilder.fromMd5Bytes(digest).build();
     }
 
-    public UUID of(String name) {
-        return of(name.getBytes(_ctx.charset));
-    }
 }
