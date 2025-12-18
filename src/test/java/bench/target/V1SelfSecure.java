@@ -5,11 +5,11 @@ import io.github.honhimw.uuid.UUIDs;
 
 /// @author honhimW
 /// @since 2025-12-10
-public class V7Self extends AbstractBench {
+public class V1SelfSecure extends AbstractBench {
 
     @Override
     public void run() throws Exception {
-        UUIDs.FAST.V7.next();
+        UUIDs.SECURE.V1.next();
     }
 
 }

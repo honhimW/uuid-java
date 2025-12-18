@@ -90,38 +90,43 @@ public class UuidTests {
             Assertions.assertEquals(Variant.RFC4122, uuid.variant());
             Assertions.assertEquals(Version.MAC, uuid.version());
             Assertions.assertTrue(uuid.timestamp().isPresent());
+            Assertions.assertTrue(uuid.node().isPresent());
         }
         {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             Uuid uuid = Uuid.fromUUID(Generators.nameBasedGenerator(UUIDs.NAMESPACE_DNS, md5).generate("foo"));
             Assertions.assertEquals(Variant.RFC4122, uuid.variant());
             Assertions.assertEquals(Version.MD5, uuid.version());
-            Assertions.assertFalse(uuid.timestamp().isPresent());
+            Assertions.assertTrue(uuid.timestamp().isEmpty());
+            Assertions.assertTrue(uuid.node().isEmpty());
         }
         {
             Uuid uuid = Uuid.fromUUID(Generators.randomBasedGenerator().generate());
             Assertions.assertEquals(Variant.RFC4122, uuid.variant());
             Assertions.assertEquals(Version.RANDOM, uuid.version());
-            Assertions.assertFalse(uuid.timestamp().isPresent());
+            Assertions.assertTrue(uuid.timestamp().isEmpty());
+            Assertions.assertTrue(uuid.node().isEmpty());
         }
         {
             MessageDigest sha1 = MessageDigest.getInstance("SHA1");
             Uuid uuid = Uuid.fromUUID(Generators.nameBasedGenerator(UUIDs.NAMESPACE_DNS, sha1).generate("foo"));
             Assertions.assertEquals(Variant.RFC4122, uuid.variant());
             Assertions.assertEquals(Version.SHA1, uuid.version());
-            Assertions.assertFalse(uuid.timestamp().isPresent());
+            Assertions.assertTrue(uuid.timestamp().isEmpty());
         }
         {
             Uuid uuid = Uuid.fromUUID(Generators.timeBasedReorderedGenerator().generate());
             Assertions.assertEquals(Variant.RFC4122, uuid.variant());
             Assertions.assertEquals(Version.SORT_MAC, uuid.version());
             Assertions.assertTrue(uuid.timestamp().isPresent());
+            Assertions.assertTrue(uuid.node().isPresent());
         }
         {
             Uuid uuid = Uuid.fromUUID(Generators.timeBasedEpochRandomGenerator().generate());
             Assertions.assertEquals(Variant.RFC4122, uuid.variant());
             Assertions.assertEquals(Version.SORT_RANDOM, uuid.version());
             Assertions.assertTrue(uuid.timestamp().isPresent());
+            Assertions.assertTrue(uuid.node().isEmpty());
         }
     }
 
