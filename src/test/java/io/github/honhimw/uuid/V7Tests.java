@@ -20,7 +20,6 @@ public class V7Tests {
         UUID uuid = UUIDs.FAST.V7.next();
         Assertions.assertEquals(7, uuid.version());
         Assertions.assertEquals(2, uuid.variant());
-        System.out.println(uuid);
     }
 
     @Test

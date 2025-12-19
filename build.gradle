@@ -87,16 +87,16 @@ mavenPublishing {
 }
 
 tasks.named('compileTestJava', JavaCompile) {
-    sourceCompatibility '25'
-    targetCompatibility '25'
+    sourceCompatibility = '25'
+    targetCompatibility = '25'
 }
 
 test {
     useJUnitPlatform()
     testLogging {
-        showStandardStreams true
-        showStackTraces true
-        exceptionFormat 'full'
+        showStandardStreams = true
+        showStackTraces = true
+        exceptionFormat = 'full'
     }
     finalizedBy jacocoTestReport
 }
