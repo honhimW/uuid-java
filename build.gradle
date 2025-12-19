@@ -3,6 +3,8 @@ import static java.nio.charset.StandardCharsets.UTF_8
 plugins {
     id 'java'
     alias libs.plugins.publish
+    id 'jacoco'
+    id 'jacoco-report-aggregation'
 }
 
 group = 'io.github.honhimw'
@@ -96,6 +98,15 @@ test {
         showStackTraces true
         exceptionFormat 'full'
     }
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.setRequired true
+        csv.setRequired false
+        html.setOutputLocation layout.buildDirectory.dir('jacocoHtml')
+    }
 }
 
 tasks.register('bench', JavaExec) {
@@ -103,4 +114,5 @@ tasks.register('bench', JavaExec) {
     mainClass = 'bench.BenchmarkRunner'
     classpath = sourceSets.test.runtimeClasspath
 }
+
 

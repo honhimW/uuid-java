@@ -163,4 +163,15 @@ public class BenchmarkRunner {
         RESULTS.addAll(run);
     }
 
+    @SneakyThrows
+    public static void others() {
+        Options options = new OptionsBuilder()
+            .threads(threads)
+            .forks(1)
+            .build();
+
+        Collection<RunResult> run = new Runner(options).run();
+        RESULTS.addAll(run);
+    }
+
 }

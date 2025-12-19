@@ -15,12 +15,14 @@ public class Bytes implements Serializable, Comparable<Bytes> {
     private int pos;
 
     /// Construct new Bytes with given capacity
+    ///
     /// @param capacity array length
     public Bytes(int capacity) {
         this(new byte[capacity]);
     }
 
     /// Construct new Bytes by given byte array
+    ///
     /// @param bytes empty byte array
     public Bytes(byte[] bytes) {
         this.bytes = bytes;
@@ -267,10 +269,8 @@ public class Bytes implements Serializable, Comparable<Bytes> {
     /// @param value value
     /// @return next index
     public static int put(byte[] dist, int index, byte[] value) {
-        for (int i = 0; i < value.length; i++, index++) {
-            dist[index] = value[i];
-        }
-        return index;
+        System.arraycopy(value, 0, dist, index, value.length);
+        return index + value.length;
     }
 
     /// Add int value into byte-array with index.
@@ -282,10 +282,8 @@ public class Bytes implements Serializable, Comparable<Bytes> {
     /// @param length source length
     /// @return next index
     public static int put(byte[] dist, int index, byte[] value, int offset, int length) {
-        for (int i = 0; i < length; i++, index++) {
-            dist[index] = value[i + offset];
-        }
-        return index;
+        System.arraycopy(value, offset, dist, index, length);
+        return index + length;
     }
 
     /// Copy byte-array from 0 into new array.

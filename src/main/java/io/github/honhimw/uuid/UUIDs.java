@@ -12,21 +12,36 @@ import java.util.function.Supplier;
 
 /// Prelude
 ///
+/// ### UUID namespace
+/// [Namespace ID Usage and Allocation](https://www.rfc-editor.org/rfc/rfc9562.html#name-namespace-id-usage-and-allo)
+///
 /// @author honhimW
 /// @since 2025-12-09
 public class UUIDs {
 
-    /// UUID namespace
+    // UUID namespace
 
+    /// - Namespace ID Value: 6ba7b810-9dad-11d1-80b4-00c04fd430c8
+    /// - Reference: [RFC9499](https://www.rfc-editor.org/rfc/rfc9562.html#RFC9499)
     public static final UUID NAMESPACE_DNS = new UUID(7757371264673321425L, -9172705715073830712L);
+    /// - Namespace ID Value: 6ba7b811-9dad-11d1-80b4-00c04fd430c8
+    /// - Reference: [RFC1738](https://www.rfc-editor.org/rfc/rfc9562.html#RFC1738)
     public static final UUID NAMESPACE_OID = new UUID(7757371273263256017L, -9172705715073830712L);
+    /// - Namespace ID Value: 6ba7b812-9dad-11d1-80b4-00c04fd430c8
+    /// - Reference: [X660](https://www.rfc-editor.org/rfc/rfc9562.html#X660)
     public static final UUID NAMESPACE_URL = new UUID(7757371268968288721L, -9172705715073830712L);
+    /// - Namespace ID Value: 6ba7b814-9dad-11d1-80b4-00c04fd430c8
+    /// - Reference: [X500](https://www.rfc-editor.org/rfc/rfc9562.html#X500)
     public static final UUID NAMESPACE_X500 = new UUID(7757371281853190609L, -9172705715073830712L);
 
+    /// - ID Value: 00000000-0000-0000-0000-000000000000
+    /// [Nil UUID](https://www.rfc-editor.org/rfc/rfc9562.html#name-nil-uuid)
     public static final UUID NIL = new UUID(0, 0);
+    /// - ID Value: FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF
+    /// [Max UUID](https://www.rfc-editor.org/rfc/rfc9562.html#name-max-uuid)
     public static final UUID MAX = new UUID(-1, -1);
 
-    /// Generators
+    // Generators
 
     public static final Generators FAST;
     public static final Generators SECURE;

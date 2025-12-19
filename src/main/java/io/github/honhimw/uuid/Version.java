@@ -3,6 +3,7 @@ package io.github.honhimw.uuid;
 import java.util.UUID;
 
 /// UUID version
+/// [Version Field](https://www.rfc-editor.org/rfc/rfc9562.html#name-version-field)
 ///
 /// 48-51 bits
 ///
@@ -10,16 +11,75 @@ import java.util.UUID;
 /// @since 2025-12-09
 public enum Version {
 
+    /// xxxxxxxx-xxxx-0xxx-xxxx-xxxxxxxxxxxx
+    ///
+    /// | MSB0 | MSB1 | MSB2 | MSB3 | Version |
+    /// |:----:|:----:|:----:|:----:|:------- |
+    /// | 0    | 0    | 0    | 0    | 0       |
     NIL(0),
+
+    /// xxxxxxxx-xxxx-1xxx-xxxx-xxxxxxxxxxxx
+    ///
+    /// | MSB0 | MSB1 | MSB2 | MSB3 | Version |
+    /// |:----:|:----:|:----:|:----:|:------- |
+    /// | 0    | 0    | 0    | 1    | 1       |
     MAC(1),
+
+    /// xxxxxxxx-xxxx-2xxx-xxxx-xxxxxxxxxxxx
+    ///
+    /// | MSB0 | MSB1 | MSB2 | MSB3 | Version |
+    /// |:----:|:----:|:----:|:----:|:------- |
+    /// | 0    | 0    | 1    | 0    | 2       |
     DCE(2),
+
+    /// xxxxxxxx-xxxx-3xxx-xxxx-xxxxxxxxxxxx
+    ///
+    /// | MSB0 | MSB1 | MSB2 | MSB3 | Version |
+    /// |:----:|:----:|:----:|:----:|:------- |
+    /// | 0    | 0    | 1    | 1    | 3       |
     MD5(3),
+
+    /// xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx
+    ///
+    /// | MSB0 | MSB1 | MSB2 | MSB3 | Version |
+    /// |:----:|:----:|:----:|:----:|:------- |
+    /// | 0    | 1    | 0    | 0    | 4       |
     RANDOM(4),
+
+    /// xxxxxxxx-xxxx-5xxx-xxxx-xxxxxxxxxxxx
+    ///
+    /// | MSB0 | MSB1 | MSB2 | MSB3 | Version |
+    /// |:----:|:----:|:----:|:----:|:------- |
+    /// | 0    | 1    | 0    | 1    | 5       |
     SHA1(5),
+
+    /// xxxxxxxx-xxxx-6xxx-xxxx-xxxxxxxxxxxx
+    ///
+    /// | MSB0 | MSB1 | MSB2 | MSB3 | Version |
+    /// |:----:|:----:|:----:|:----:|:------- |
+    /// | 0    | 1    | 1    | 0    | 6       |
     SORT_MAC(6),
+
+    /// xxxxxxxx-xxxx-7xxx-xxxx-xxxxxxxxxxxx
+    ///
+    /// | MSB0 | MSB1 | MSB2 | MSB3 | Version |
+    /// |:----:|:----:|:----:|:----:|:------- |
+    /// | 0    | 1    | 1    | 1    | 7       |
     SORT_RANDOM(7),
+
+    /// xxxxxxxx-xxxx-8xxx-xxxx-xxxxxxxxxxxx
+    ///
+    /// | MSB0 | MSB1 | MSB2 | MSB3 | Version |
+    /// |:----:|:----:|:----:|:----:|:------- |
+    /// | 1    | 0    | 0    | 0    | 8       |
     CUSTOM(8),
-    MAX(0xFF),
+
+    /// xxxxxxxx-xxxx-Fxxx-xxxx-xxxxxxxxxxxx
+    ///
+    /// | MSB0 | MSB1 | MSB2 | MSB3 | Version |
+    /// |:----:|:----:|:----:|:----:|:------- |
+    /// | 1    | 1    | 1    | 1    | 15       |
+    MAX(0xF),
     ;
 
     private final int value;
@@ -68,7 +128,7 @@ public enum Version {
     }
 
     public static Version of(byte b) {
-        return of(b >>> 4);
+        return of(Byte.toUnsignedInt(b) >>> 4);
     }
 
 }

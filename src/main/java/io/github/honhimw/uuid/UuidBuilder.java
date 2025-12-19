@@ -148,6 +148,15 @@ public class UuidBuilder {
         return builder;
     }
 
+    public static UuidBuilder fromCustom(long h, long l) {
+        UuidBuilder builder = empty();
+        builder.bytes.putLong(h).putLong(l);
+        builder
+            .variant(Variant.RFC4122)
+            .version(Version.CUSTOM);
+        return builder;
+    }
+
     public static UuidBuilder fromUnixTimestampMillis(long millis, byte[] bytes) {
         int millisHigh = (int) ((millis >>> 16) & 0xFFFF_FFFFL);
         short millisLow = (short) (millis & 0xFFFF);

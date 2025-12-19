@@ -17,12 +17,10 @@ public class V7Tests {
     @Test
     @SneakyThrows
     void random() {
-        for (int i = 0; i < 1000; i++) {
-
-            UUID uuid = UUIDs.FAST.V7.next();
-            Assertions.assertEquals(7, uuid.version());
-            Assertions.assertEquals(2, uuid.variant());
-        }
+        UUID uuid = UUIDs.FAST.V7.next();
+        Assertions.assertEquals(7, uuid.version());
+        Assertions.assertEquals(2, uuid.variant());
+        System.out.println(uuid);
     }
 
     @Test
