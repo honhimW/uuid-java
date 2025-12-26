@@ -176,7 +176,15 @@ public class V7 extends AbstractGenerator {
         }
 
         public ClockSequenceV7 withAdditionalPrecision() {
-            this.precision = new Precision(usableBits(), 12);
+            this.precision = new Precision12(usableBits());
+            return this;
+        }
+
+        public ClockSequenceV7 withAdditionalPrecision(int bits) {
+            if (bits < 0 || bits > 20) {
+                throw new IllegalArgumentException("Timestamp addition precision out of range [0..20].");
+            }
+            this.precision = new Precision(usableBits(), bits);
             return this;
         }
 
@@ -219,23 +227,39 @@ public class V7 extends AbstractGenerator {
     }
 
     private static class Precision {
-        private final int bits;
-        private final int factor;
-        private final long mask;
-        private final long shift;
+        final int bits;
+        final int factor;
+        final long mask;
+        final long shift;
 
-        private Precision(int usableBits, int bits) {
+        Precision(int usableBits, int bits) {
             this.bits = bits;
             this.factor = (int) (999_999 / (bits >= 1 ? (2L << (bits - 1)) : 1)) + 1;
             this.mask = -1L >>> (Long.SIZE - usableBits + bits);
             this.shift = usableBits - bits;
         }
 
-        private long apply(long value, ReseedingTimestamp timestamp) {
+        long apply(long value, ReseedingTimestamp timestamp) {
             if (this.bits == 0) {
                 return value;
             }
             long addition = timestamp.nanos % 1_000_000 / this.factor;
+            return value & this.mask | (addition << this.shift);
+        }
+
+    }
+
+    private static class Precision12 extends Precision {
+        Precision12(int usableBits) {
+            super(usableBits, 12);
+        }
+
+        @Override
+        long apply(long value, ReseedingTimestamp timestamp) {
+            long addition = timestamp.nanos % 1_000_000 * 2000 / 488_281;
+            if (addition > 4081) {
+                System.out.println(addition);
+            }
             return value & this.mask | (addition << this.shift);
         }
 
