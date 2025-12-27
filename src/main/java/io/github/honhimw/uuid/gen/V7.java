@@ -257,9 +257,6 @@ public class V7 extends AbstractGenerator {
         @Override
         long apply(long value, ReseedingTimestamp timestamp) {
             long addition = timestamp.nanos % 1_000_000 * 2000 / 488_281;
-            if (addition > 4081) {
-                System.out.println(addition);
-            }
             return value & this.mask | (addition << this.shift);
         }
 
