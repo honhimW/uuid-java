@@ -47,23 +47,26 @@ public class V7Tests {
     @Test
     @SneakyThrows
     void additionPrecision() {
-        AtomicLong atomicLong = new AtomicLong();
-        V7.ClockSequenceV7 clockSequence = new V7.ClockSequenceV7() {
-            @Override
-            public long generateSequence(long seconds, int nanos) {
-                long l = super.generateSequence(seconds, nanos);
-                long mask = -1L >>> 34;
-                long counter = l & mask;
-                atomicLong.set(counter);
-                return l;
-            }
-        }.withAdditionalPrecision();
+        V7.ClockSequenceV7 clockSequence = new V7.ClockSequenceV7().withAdditionalPrecision();
         V7 v7 = new V7(Context.builder().clock(clockSequence).build());
-        UUID random = v7.next();
-        Optional<Timestamp> timestamp = Uuid.fromUUID(random).timestamp();
-        Assertions.assertTrue(timestamp.isPresent());
-        Timestamp resolve = v7.resolveTimestamp(random);
-        Assertions.assertEquals(atomicLong.get(), resolve.counter);
+        Timestamp now = Timestamp.now(clockSequence);
+        UUID uuid = v7.of(now);
+        Timestamp resolve = v7.resolveTimestamp(uuid);
+        Assertions.assertEquals(now.seconds, resolve.seconds);
+        Assertions.assertEquals(now.counter, resolve.counter);
+        Assertions.assertEquals(now.usableCounterBits, resolve.usableCounterBits);
+    }
+
+    @Test
+    @SneakyThrows
+    void precision20() {
+        V7.ClockSequenceV7 clockSequence = new V7.ClockSequenceV7().withAdditionalPrecision(20);
+        V7 v7 = new V7(Context.builder().clock(clockSequence).build());
+        Timestamp now = Timestamp.now(clockSequence);
+        UUID uuid = v7.of(now);
+
+        Timestamp resolved = v7.resolveTimestamp(uuid);
+        Assertions.assertEquals(now, resolved);
     }
 
 }

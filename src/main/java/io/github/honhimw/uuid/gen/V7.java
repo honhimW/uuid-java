@@ -95,24 +95,30 @@ public class V7 extends AbstractGenerator {
 
             long seconds = millis / 1000;
             int nanos = (int) (millis % 1000) * 1_000_000;
-            long counter = 0;
+            long counter;
             int usableCounterBits = _ctx.clockSequence.usableBits();
             if (_ctx.clockSequence instanceof ClockSequenceV7) {
                 ClockSequenceV7 clockSequence = (ClockSequenceV7) _ctx.clockSequence;
-                clockSequence.usableBits();
                 int bits = clockSequence.precision.bits;
-                if (bits == 12) {
-                    int addition = (Byte.toUnsignedInt(bb.get(6)) & 0xF) << 8;
-                    addition |= (Byte.toUnsignedInt(bb.get(7)));
-                    nanos += addition * clockSequence.precision.factor;
-                } else {
-                    counter = (Byte.toUnsignedLong(bb.get(6)) & 0xF) << 38;
-                    counter |= (Byte.toUnsignedLong(bb.get(7))) << 30;
+                if (bits != 0) {
+                    int i = bb.getInt(6); // addition precision always less than 32
+                    int addition;
+                    if (bits > 12) {
+                        int mask = (-1 << 20) >>> 4;
+                        addition = ((i & mask) >>> 2 | (i & (-1 >>> 18))) >>> (32 - (bits + 2 + 4));
+                    } else {
+                        int mask = (-1 << (32 - bits)) >>> 4;
+                        addition = (i & mask) >>> (32 - (bits + 4));
+                    }
+                    if (bits >= 20) {
+                        nanos += addition;
+                    } else {
+                        nanos += (int) (addition * 999_999L >>> bits);
+                    }
                 }
-            } else {
-                counter = (Byte.toUnsignedLong(bb.get(6)) & 0xF) << 38;
-                counter |= (Byte.toUnsignedLong(bb.get(7))) << 30;
             }
+            counter = (Byte.toUnsignedLong(bb.get(6)) & 0xF) << 38;
+            counter |= (Byte.toUnsignedLong(bb.get(7))) << 30;
             counter |= (Byte.toUnsignedLong(bb.get(8)) & 0x3F) << 24;
             counter |= (Byte.toUnsignedLong(bb.get(9))) << 16;
             counter |= (Byte.toUnsignedLong(bb.get(10))) << 8;
@@ -175,14 +181,22 @@ public class V7 extends AbstractGenerator {
             }
         }
 
+        /// Add 12-bits timestamp precision
+        ///
+        /// @return self
         public ClockSequenceV7 withAdditionalPrecision() {
-            this.precision = new Precision12(usableBits());
-            return this;
+            return this.withAdditionalPrecision(12);
         }
 
+        /**
+         * Add custom bits length timestamp precision
+         *
+         * @param bits range [1, 20]
+         * @return self
+         */
         public ClockSequenceV7 withAdditionalPrecision(int bits) {
-            if (bits < 0 || bits > 20) {
-                throw new IllegalArgumentException("Timestamp addition precision out of range [0..20].");
+            if (bits < 1 || bits > 20) {
+                throw new IllegalArgumentException("Timestamp addition precision out of range [0..20] is meaningless.");
             }
             this.precision = new Precision(usableBits(), bits);
             return this;
@@ -226,40 +240,33 @@ public class V7 extends AbstractGenerator {
 
     }
 
+    /// bits length <= 20
     private static class Precision {
         final int bits;
-        final int factor;
+        final int k;
+        final long r;
         final long mask;
         final long shift;
 
         Precision(int usableBits, int bits) {
             this.bits = bits;
-            this.factor = (int) (999_999 / (bits >= 1 ? (2L << (bits - 1)) : 1)) + 1;
+            this.k = 32;
+            this.r = (((1L << bits) << k) - 1) / 999_999L;
             this.mask = -1L >>> (Long.SIZE - usableBits + bits);
             this.shift = usableBits - bits;
         }
 
         long apply(long value, ReseedingTimestamp timestamp) {
-            if (this.bits == 0) {
-                return value;
+            if (bits == 0) {
+                return value & this.mask;
             }
-            long addition = timestamp.nanos % 1_000_000 / this.factor;
+            if (bits >= 20) {
+                long addition = timestamp.nanos % 1_000_000;
+                return value & this.mask | (addition << this.shift);
+            }
+            long addition = ((timestamp.nanos % 1_000_000) * r) >>> this.k;
             return value & this.mask | (addition << this.shift);
         }
-
-    }
-
-    private static class Precision12 extends Precision {
-        Precision12(int usableBits) {
-            super(usableBits, 12);
-        }
-
-        @Override
-        long apply(long value, ReseedingTimestamp timestamp) {
-            long addition = timestamp.nanos % 1_000_000 * 2000 / 488_281;
-            return value & this.mask | (addition << this.shift);
-        }
-
     }
 
 }
