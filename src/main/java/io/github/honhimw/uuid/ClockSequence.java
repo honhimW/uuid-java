@@ -29,4 +29,11 @@ public interface ClockSequence {
         return Instant.now();
     }
 
+    static Instant fastNow() {
+        long millis = System.currentTimeMillis();
+        long seconds = Maths.div1000(millis);
+        int nanos = (int) (millis - (seconds * Maths.ONE_THOUSAND)) * 1_000_000;
+        return Instant.ofEpochSecond(seconds, nanos);
+    }
+
 }

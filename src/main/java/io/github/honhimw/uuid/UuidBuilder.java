@@ -14,10 +14,18 @@ public class UuidBuilder {
         this.bytes = new Bytes(new byte[16]);
     }
 
+    /// set variant field
+    ///
+    /// @param variant uuid variant
+    /// @return self
     public UuidBuilder variant(int variant) {
         return variant(Variant.of(variant));
     }
 
+    /// set variant field
+    ///
+    /// @param variant uuid variant
+    /// @return self
     public UuidBuilder variant(Variant variant) {
         byte b = this.bytes.get(8);
         switch (variant) {
@@ -40,10 +48,18 @@ public class UuidBuilder {
         return this;
     }
 
+    /// set version field
+    ///
+    /// @param version uuid version
+    /// @return self
     public UuidBuilder version(Version version) {
         return version(version.value());
     }
 
+    /// set version field
+    ///
+    /// @param version uuid version
+    /// @return self
     public UuidBuilder version(int version) {
         byte b = this.bytes.get(6);
         b &= 0x0F;
@@ -56,6 +72,9 @@ public class UuidBuilder {
         return new UUID(this.bytes.getLong(0), this.bytes.getLong(Long.BYTES));
     }
 
+    /// create an empty uuid builder with [UUIDs#NIL] as default.
+    ///
+    /// @return new empty builder
     public static UuidBuilder empty() {
         return new UuidBuilder();
     }

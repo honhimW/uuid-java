@@ -4,7 +4,8 @@ import io.github.honhimw.uuid.*;
 
 import java.util.UUID;
 
-/// [Version 1](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-1)
+/// UUID [Version 1](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-1) Generator, aka Time-Based UUID.
+///
 /// ```text
 ///  0                   1                   2                   3
 ///  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -17,7 +18,7 @@ import java.util.UUID;
 /// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 /// |                              node                             |
 /// +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-/// ```
+///```
 ///
 /// - time_low: The least significant 32 bits of the 60-bit starting timestamp. Occupies bits 0 through 31 (octets 0-3).
 /// - time_mid: The middle 16 bits of the 60-bit starting timestamp. Occupies bits 32 through 47 (octets 4-5).

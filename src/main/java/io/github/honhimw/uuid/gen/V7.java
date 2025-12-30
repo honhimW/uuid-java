@@ -8,7 +8,8 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 
-/// [Version 7](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7)
+/// UUID [Version 7](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7) generator, aka Unix-Epoch Time-Ordered-Random UUID.
+///
 /// ```text
 ///  0                   1                   2                   3
 ///  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -93,8 +94,8 @@ public class V7 extends AbstractGenerator {
             millis |= (Byte.toUnsignedLong(bb.get(4))) << 8;
             millis |= Byte.toUnsignedLong(bb.get(5));
 
-            long seconds = millis / 1000;
-            int nanos = (int) (millis % 1000) * 1_000_000;
+            long seconds = Maths.div1000(millis);
+            int nanos = (int) (millis - (seconds * Maths.ONE_THOUSAND)) * 1_000_000;
             long counter;
             int usableCounterBits = _ctx.clockSequence.usableBits();
             if (_ctx.clockSequence instanceof ClockSequenceV7) {
@@ -131,6 +132,13 @@ public class V7 extends AbstractGenerator {
     }
 
     /// UUIDv7 ClockSequence with reseeding timestamp.
+    ///
+    /// [Monotonicity and Counters](https://www.rfc-editor.org/rfc/rfc9562.html#name-monotonicity-and-counters)
+    ///
+    /// To guarantee additional monotonicity within a millisecond:
+    /// 1. An OPTIONAL sub-millisecond timestamp fraction (12 bits at maximum)
+    /// 2. An OPTIONAL carefully seeded counter
+    /// 3. Random data for each new UUIDv7 generated for any remaining space.
     public static class ClockSequenceV7 implements ClockSequence {
         private static final long RESEED_MASK = -1L >>> 23;
         private static final long MAX_COUNTER = -1L >>> 22;
@@ -171,31 +179,33 @@ public class V7 extends AbstractGenerator {
         public Instant now() {
             if (precision.bits == 0) {
                 // millisecond
-                long millis = System.currentTimeMillis();
-                long seconds = millis / 1000;
-                int nanos = (int) (millis % 1000) * 1_000_000;
-                return Instant.ofEpochSecond(seconds, nanos);
+                return ClockSequence.fastNow();
             } else {
                 // nanosecond
                 return Instant.now();
             }
         }
 
-        /// Add 12-bits timestamp precision
+        /// Add 12-bits timestamp precision.
+        ///
+        /// [An OPTIONAL sub-millisecond timestamp fraction (12 bits at maximum)](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7)
         ///
         /// @return self
         public ClockSequenceV7 withAdditionalPrecision() {
             return this.withAdditionalPrecision(12);
         }
 
-        /**
-         * Add custom bits length timestamp precision
-         *
-         * @param bits range [1, 20]
-         * @return self
-         */
+        /// Add custom bits length timestamp precision
+        ///
+        /// > \[!warning]
+        /// > Out of RFC9562 definition.
+        ///
+        /// With 20-bits, we can add full-precision of 100ns into UUID.
+        ///
+        /// @param bits range 0 - 20
+        /// @return self
         public ClockSequenceV7 withAdditionalPrecision(int bits) {
-            if (bits < 1 || bits > 20) {
+            if (bits < 0 || bits > 20) {
                 throw new IllegalArgumentException("Timestamp addition precision out of range [0..20] is meaningless.");
             }
             this.precision = new Precision(usableBits(), bits);
@@ -222,7 +232,7 @@ public class V7 extends AbstractGenerator {
         }
 
         private boolean advance(long seconds, int nanos) {
-            long millis = (seconds * 1000) + (nanos / 1_000_000);
+            long millis = (seconds * 1000) + Maths.ns2ms(nanos);
             if (millis > this.lastSeed) {
                 synchronized (this) {
                     if (millis > this.lastSeed) {
@@ -261,10 +271,10 @@ public class V7 extends AbstractGenerator {
                 return value & this.mask;
             }
             if (bits >= 20) {
-                long addition = timestamp.nanos % 1_000_000;
+                long addition = Maths.nsMod(timestamp.nanos);
                 return value & this.mask | (addition << this.shift);
             }
-            long addition = ((timestamp.nanos % 1_000_000) * r) >>> this.k;
+            long addition = (Maths.nsMod(timestamp.nanos) * r) >>> this.k;
             return value & this.mask | (addition << this.shift);
         }
     }

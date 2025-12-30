@@ -119,8 +119,8 @@ public class Uuid implements Serializable, Comparable<Uuid> {
                 millis |= (Byte.toUnsignedLong(bb.get(4))) << 8;
                 millis |= Byte.toUnsignedLong(bb.get(5));
 
-                long seconds = millis / 1000;
-                int nanos = (int) (millis % 1000) * 1_000_000;
+                long seconds = Maths.div1000(millis);
+                int nanos = (int) (millis - (seconds * Maths.ONE_THOUSAND)) * 1_000_000;
 
                 long counter = (Byte.toUnsignedLong(bb.get(6)) & 0xF) << 38;
                 counter |= (Byte.toUnsignedLong(bb.get(7))) << 30;

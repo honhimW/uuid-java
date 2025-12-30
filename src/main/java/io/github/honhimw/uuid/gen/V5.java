@@ -9,7 +9,8 @@ import org.jspecify.annotations.Nullable;
 import java.security.MessageDigest;
 import java.util.UUID;
 
-/// [Version 5](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-5)
+/// UUID [Version 5](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-5) generator, aka Name-Based(SHA1) UUID.
+///
 /// ```text
 ///  0                   1                   2                   3
 ///  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1

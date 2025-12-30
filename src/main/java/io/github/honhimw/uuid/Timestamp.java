@@ -33,7 +33,7 @@ public class Timestamp implements Comparable<Timestamp>, Serializable {
 
     public long asEpochMillis() {
         long millis = seconds * 1_000L;
-        return millis + (nanos / 1_000_000);
+        return millis + Maths.ns2ms(nanos);
     }
 
     public Instant asInstant() {

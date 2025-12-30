@@ -5,7 +5,8 @@ import io.github.honhimw.uuid.Context;
 import java.util.Random;
 import java.util.UUID;
 
-/// [Version 4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4)
+/// UUID [Version 4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) generator, aka Random-Based UUID.
+///
 /// ```text
 ///  0                   1                   2                   3
 ///  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1

@@ -58,10 +58,7 @@ public class UUIDs {
             V7 v7 = new V7(Context.builder().clock(new RandomSequence(random) {
                 @Override
                 public Instant now() {
-                    long millis = System.currentTimeMillis();
-                    long seconds = millis / 1000;
-                    int nanos = (int) (millis % 1000) * 1_000_000;
-                    return Instant.ofEpochSecond(seconds, nanos);
+                    return ClockSequence.fastNow();
                 }
             }).random(random).build());
             FAST = new Generators(v1, v3, v4, v5, v6, v7);

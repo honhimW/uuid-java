@@ -26,15 +26,17 @@ public class BenchmarkRunner {
     @SneakyThrows
     public static void main(String[] args) {
         threads = Runtime.getRuntime().availableProcessors();
-        v1();
-        v3();
-        v4();
-        v5();
-        v6();
+//        v1();
+//        v3();
+//        v4();
+//        v5();
+//        v6();
         v7();
         printResult();
-//        RESULTS.clear();
+        RESULTS.clear();
 //        secure();
+//        printResult();
+//        others();
 //        printResult();
     }
 
