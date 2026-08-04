@@ -134,14 +134,24 @@ public class Timestamp implements Comparable<Timestamp>, Serializable {
     }
 
     @Override
+    public String toString() {
+        return "Timestamp{" +
+               "seconds=" + seconds +
+               ", nanos=" + nanos +
+               ", counter=" + counter +
+               ", usableCounterBits=" + usableCounterBits +
+               '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Timestamp timestamp = (Timestamp) o;
-        return seconds == timestamp.seconds && nanos == timestamp.nanos && counter == timestamp.counter && usableCounterBits == timestamp.usableCounterBits && millis == timestamp.millis;
+        return seconds == timestamp.seconds && nanos == timestamp.nanos && counter == timestamp.counter && usableCounterBits == timestamp.usableCounterBits;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(seconds, nanos, counter, usableCounterBits, millis);
+        return Objects.hash(seconds, nanos, counter, usableCounterBits);
     }
 }
