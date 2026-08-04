@@ -18,7 +18,7 @@ implementation 'io.github.honhimw:uuid-java:{latest}'
 <summary>Details</summary>
 
 > JMH version: 1.37  
-> VM version: JDK 25.0.1, Java HotSpot(TM) 64-Bit Server VM, 25.0.1+8-LTS-jvmci-b01  
+> VM version: JDK 25.0.1, Java HotSpot (TM) 64-Bit Server VM, 25.0.1+8-LTS-jvmci-b01  
 > Warmup: 2 iterations, 1 s each  
 > Measurement: 4 iterations, 1 s each  
 > Threads: 6 threads, will synchronize iterations  
@@ -26,26 +26,32 @@ implementation 'io.github.honhimw:uuid-java:{latest}'
 
 | Name          |       Score(thrpt) |
 |---------------|-------------------:|
-| V1Fasterxml   |    9896.610 ops/ms |
-| V1Self        |  286766.275 ops/ms |
-| V1UuidCreator |   33975.788 ops/ms |
-| V3Fasterxml   |    7042.645 ops/ms |
-| V3Self        |   57528.830 ops/ms |
-| V3UuidCreator |   43219.599 ops/ms |
-| V4Fasterxml   | 3140606.305 ops/ms |
-| V4Jdk         |     968.399 ops/ms |
-| V4Self        | 2962402.564 ops/ms |
-| V4UuidCreator |   41973.260 ops/ms |
-| V5Fasterxml   |    3384.154 ops/ms |
-| V5Self        |   26700.751 ops/ms |
-| V5UuidCreator |   22702.842 ops/ms |
-| V6Fasterxml   |    9883.793 ops/ms |
-| V6Self        |  243767.693 ops/ms |
-| V6UuidCreator |   34400.246 ops/ms |
-| V7Fasterxml   |   31643.356 ops/ms |
-| V7Fastest     | 1578077.735 ops/ms |
-| V7Self        |  994545.869 ops/ms |
-| V7UuidCreator |   19878.532 ops/ms |
+| V1Fasterxml   |    9889.128 ops/ms |
+| V1Self        |  248979.250 ops/ms |
+| V1SelfSecure  |   23203.039 ops/ms |
+| V1UuidCreator |   34402.695 ops/ms |
+| V3Fasterxml   |    6918.611 ops/ms |
+| V3Self        |   56499.424 ops/ms |
+| V3SelfSecure  |   54563.924 ops/ms |
+| V3UuidCreator |   41852.958 ops/ms |
+| V4Fasterxml   | 3081285.846 ops/ms |
+| V4Jdk         |    1021.013 ops/ms |
+| V4Self        | 3040052.353 ops/ms |
+| V4SelfSecure  |     251.294 ops/ms |
+| V4UuidCreator |   44051.426 ops/ms |
+| V5Fasterxml   |    3327.681 ops/ms |
+| V5Self        |   27256.804 ops/ms |
+| V5SelfSecure  |   27326.388 ops/ms |
+| V5UuidCreator |   23258.985 ops/ms |
+| V6Fasterxml   |    9896.053 ops/ms |
+| V6Self        |  274965.694 ops/ms |
+| V6SelfSecure  |   23408.190 ops/ms |
+| V6UuidCreator |   35989.205 ops/ms |
+| V7Fasterxml   |   31870.053 ops/ms |
+| V7Fastest     | 1292723.959 ops/ms |
+| V7Self        | 1404916.850 ops/ms |
+| V7SelfSecure  |     297.321 ops/ms |
+| V7UuidCreator |   19100.390 ops/ms |
 
 </details>
 
@@ -68,11 +74,12 @@ void main() {
 //    UUID uuid = UUIDs.FAST.V4.next();
 //    UUID uuid = UUIDs.FAST.V5.of("bar");
 //    UUID uuid = UUIDs.FAST.V6.now(MacAddress.nodeId());
-//    UUID uuid = UUIDs.FAST.V7.of(Timestamp.now(CounterSequence.SHARED));
+//    UUID uuid = UUIDs.FAST.V7.of(CounterSequence.SHARED.timestamp());
 }
 ```
 
 ### Customize
+
 ```java
 void main() {
     V7 v7 = new V7(Context.builder()

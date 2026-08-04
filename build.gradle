@@ -36,21 +36,19 @@ configurations {
 }
 
 dependencies {
-    dependencies {
-        compileOnly libs.jspecify
+    compileOnly libs.jspecify
 
-        testImplementation 'io.github.robsonkades:uuidv7:1.0.1'
-        testImplementation 'com.fasterxml.uuid:java-uuid-generator:5.1.0'
-        testImplementation 'com.github.f4b6a3:uuid-creator:6.1.1'
-        testImplementation platform(libs.junit)
-        testImplementation 'org.junit.jupiter:junit-jupiter'
-        testImplementation 'org.junit.platform:junit-platform-engine'
-        testImplementation 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'io.github.robsonkades:uuidv7:1.0.1'
+    testImplementation 'com.fasterxml.uuid:java-uuid-generator:5.1.0'
+    testImplementation 'com.github.f4b6a3:uuid-creator:6.1.1'
+    testImplementation platform(libs.junit)
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.platform:junit-platform-engine'
+    testImplementation 'org.junit.platform:junit-platform-launcher'
 
-        testImplementation libs.jmh.core
-        testAnnotationProcessor libs.jmh.generator.annprocess
-        testAnnotationProcessor libs.lombok
-    }
+    testImplementation libs.jmh.core
+    testAnnotationProcessor libs.jmh.generator.annprocess
+    testAnnotationProcessor libs.lombok
 }
 
 mavenPublishing {

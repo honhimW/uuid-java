@@ -25,8 +25,8 @@ public interface ClockSequence {
     /// In most cases, millisecond is enough. [System#currentTimeMillis()] is much more faster than [Instant#now()]
     ///
     /// @return unix timestamp
-    default Instant now() {
-        return Instant.now();
+    default Timestamp timestamp() {
+        return Timestamp.of(this, Instant.now());
     }
 
 }

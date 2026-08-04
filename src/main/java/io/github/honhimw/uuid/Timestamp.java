@@ -24,16 +24,28 @@ public class Timestamp implements Comparable<Timestamp>, Serializable {
     /// counter bit length in uuid
     public final int usableCounterBits;
 
+    /// unix milli second
+    private long millis;
+
     public Timestamp(long seconds, int nanos, long counter, int usableCounterBits) {
+        this(seconds, nanos, counter, usableCounterBits, -1);
+    }
+
+    public Timestamp(long seconds, int nanos, long counter, int usableCounterBits, long millis) {
         this.seconds = seconds;
         this.nanos = nanos;
         this.counter = counter;
         this.usableCounterBits = usableCounterBits;
+        this.millis = millis;
     }
 
     public long asEpochMillis() {
-        long millis = seconds * 1_000L;
-        return millis + (nanos / 1_000_000);
+        if (millis < 0) {
+            long millis = seconds * 1_000L;
+            millis += (nanos / 1_000_000);
+            this.millis = millis;
+        }
+        return this.millis;
     }
 
     public Instant asInstant() {
@@ -42,10 +54,6 @@ public class Timestamp implements Comparable<Timestamp>, Serializable {
 
     public long asGregorian() {
         return unix2Gregorian(seconds, nanos);
-    }
-
-    public static Timestamp now(ClockSequence context) {
-        return of(context, context.now());
     }
 
     public static Optional<Timestamp> of(UUID uuid) {
@@ -62,6 +70,20 @@ public class Timestamp implements Comparable<Timestamp>, Serializable {
             nano,
             counter,
             usableBits
+        );
+    }
+
+    public static Timestamp of(ClockSequence context, final long millis) {
+        long epochSecond = millis / 1000;
+        int nano = (int) (millis % 1000) * 1_000_000;
+        long counter = context.generateSequence(epochSecond, nano);
+        int usableBits = context.usableBits();
+        return new Timestamp(
+            epochSecond,
+            nano,
+            counter,
+            usableBits,
+            millis
         );
     }
 
@@ -112,24 +134,14 @@ public class Timestamp implements Comparable<Timestamp>, Serializable {
     }
 
     @Override
-    public String toString() {
-        return "Timestamp{" +
-               "seconds=" + seconds +
-               ", nanos=" + nanos +
-               ", counter=" + counter +
-               ", usableCounterBits=" + usableCounterBits +
-               '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Timestamp timestamp = (Timestamp) o;
-        return seconds == timestamp.seconds && nanos == timestamp.nanos && counter == timestamp.counter && usableCounterBits == timestamp.usableCounterBits;
+        return seconds == timestamp.seconds && nanos == timestamp.nanos && counter == timestamp.counter && usableCounterBits == timestamp.usableCounterBits && millis == timestamp.millis;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(seconds, nanos, counter, usableCounterBits);
+        return Objects.hash(seconds, nanos, counter, usableCounterBits, millis);
     }
 }

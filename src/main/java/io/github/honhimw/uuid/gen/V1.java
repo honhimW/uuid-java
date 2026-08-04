@@ -46,7 +46,7 @@ public class V1 extends AbstractGenerator implements Generator.TimeBased {
 
     @Override
     public UUID now(NodeId nodeId) {
-        Timestamp ts = Timestamp.now(_ctx.clockSequence);
+        Timestamp ts = _ctx.clockSequence.timestamp();
         return of(ts, nodeId);
     }
 

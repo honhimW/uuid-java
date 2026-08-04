@@ -49,7 +49,7 @@ public class V7Tests {
     void additionPrecision() {
         V7.ClockSequenceV7 clockSequence = new V7.ClockSequenceV7().withAdditionalPrecision();
         V7 v7 = new V7(Context.builder().clock(clockSequence).build());
-        Timestamp now = Timestamp.now(clockSequence);
+        Timestamp now = clockSequence.timestamp();
         UUID uuid = v7.of(now);
         Timestamp resolve = v7.resolveTimestamp(uuid);
         Assertions.assertEquals(now.seconds, resolve.seconds);
@@ -62,7 +62,7 @@ public class V7Tests {
     void precision20() {
         V7.ClockSequenceV7 clockSequence = new V7.ClockSequenceV7().withAdditionalPrecision(20);
         V7 v7 = new V7(Context.builder().clock(clockSequence).build());
-        Timestamp now = Timestamp.now(clockSequence);
+        Timestamp now = clockSequence.timestamp();
         UUID uuid = v7.of(now);
 
         Timestamp resolved = v7.resolveTimestamp(uuid);

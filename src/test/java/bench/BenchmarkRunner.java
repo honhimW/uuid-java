@@ -3,6 +3,7 @@ package bench;
 import bench.target.*;
 import lombok.SneakyThrows;
 import org.openjdk.jmh.infra.BenchmarkParams;
+import org.openjdk.jmh.profile.GCProfiler;
 import org.openjdk.jmh.results.BenchmarkResult;
 import org.openjdk.jmh.results.Result;
 import org.openjdk.jmh.results.RunResult;
@@ -140,6 +141,7 @@ public class BenchmarkRunner {
             .include(V7Fasterxml.class.getSimpleName())
             .threads(threads)
             .forks(1)
+//            .addProfiler(GCProfiler.class)
             .build();
 
         Collection<RunResult> run = new Runner(options).run();

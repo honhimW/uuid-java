@@ -22,7 +22,7 @@ public class UuidTests {
     void uuid() {
         NodeId nodeId = MacAddress.nodeId();
         CounterSequence shared = CounterSequence.SHARED;
-        Timestamp now = Timestamp.now(shared);
+        Timestamp now = shared.timestamp();
         {
             UUID _uuid = V1.of(now, nodeId);
             Uuid uuid = Uuid.fromUUID(_uuid);
@@ -57,7 +57,7 @@ public class UuidTests {
         }
         {
             Context context = Context.builder().clock(new V7.ClockSequenceV7()).build();
-            Timestamp _now = Timestamp.now(context.clockSequence);
+            Timestamp _now = context.clockSequence.timestamp();
             UUID _uuid = new V7(context).of(_now);
             Uuid uuid = Uuid.fromUUID(_uuid);
             Assertions.assertEquals(Variant.RFC4122, uuid.variant());

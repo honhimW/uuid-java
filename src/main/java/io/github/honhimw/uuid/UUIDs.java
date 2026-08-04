@@ -2,9 +2,7 @@ package io.github.honhimw.uuid;
 
 import io.github.honhimw.uuid.gen.*;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.time.Instant;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -57,25 +55,15 @@ public class UUIDs {
             V6 v6 = new V6(Context.builder().clock(randomSequence).random(random).build());
             V7 v7 = new V7(Context.builder().clock(new RandomSequence(random) {
                 @Override
-                public Instant now() {
-                    long millis = System.currentTimeMillis();
-                    long seconds = millis / 1000;
-                    int nanos = (int) (millis % 1000) * 1_000_000;
-                    return Instant.ofEpochSecond(seconds, nanos);
+                public Timestamp timestamp() {
+                    return Timestamp.of(this, System.currentTimeMillis());
                 }
             }).random(random).build());
             FAST = new Generators(v1, v3, v4, v5, v6, v7);
         }
         {
-            SecureRandom secureRandom;
-            try {
-                secureRandom = SecureRandom.getInstanceStrong();
-            } catch (NoSuchAlgorithmException e) {
-                secureRandom = new SecureRandom();
-            }
-            SecureRandom finalSecureRandom = secureRandom;
-            Supplier<Random> random = () -> finalSecureRandom;
-
+            SecureRandom secureRandom = new SecureRandom();
+            Supplier<Random> random = () -> secureRandom;
             V1 v1 = new V1(Context.builder().random(random).build());
             V3 v3 = new V3(Context.builder().random(random).build(), NAMESPACE_DNS);
             V4 v4 = new V4(Context.builder().random(random).build());

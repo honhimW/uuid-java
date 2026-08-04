@@ -111,7 +111,6 @@ public class Uuid implements Serializable, Comparable<Uuid> {
                 break;
             }
             case SORT_RANDOM: {
-                UUIDs.FAST.V7.resolveTimestamp(asUUID());
                 long millis = (Byte.toUnsignedLong(bb.get(0)) & 0x0F) << 40;
                 millis |= (Byte.toUnsignedLong(bb.get(1))) << 32;
                 millis |= (Byte.toUnsignedLong(bb.get(2))) << 24;

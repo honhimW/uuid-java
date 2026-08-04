@@ -2,7 +2,6 @@ package io.github.honhimw.uuid.gen;
 
 import io.github.honhimw.uuid.*;
 
-import java.time.Instant;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -48,7 +47,7 @@ public class V7 extends AbstractGenerator {
 
     @Override
     public UUID next() {
-        Timestamp now = Timestamp.now(_ctx.clockSequence);
+        Timestamp now = _ctx.clockSequence.timestamp();
         return of(now);
     }
 
@@ -168,16 +167,12 @@ public class V7 extends AbstractGenerator {
         }
 
         @Override
-        public Instant now() {
+        public Timestamp timestamp() {
             if (precision.bits == 0) {
-                // millisecond
-                long millis = System.currentTimeMillis();
-                long seconds = millis / 1000;
-                int nanos = (int) (millis % 1000) * 1_000_000;
-                return Instant.ofEpochSecond(seconds, nanos);
+                return Timestamp.of(this, System.currentTimeMillis());
             } else {
                 // nanosecond
-                return Instant.now();
+                return ClockSequence.super.timestamp();
             }
         }
 

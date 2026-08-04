@@ -4,7 +4,7 @@ import io.github.honhimw.uuid.*;
 
 import java.util.UUID;
 
-/// [Version 3](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-3)
+/// [Version 6](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-6)
 /// ```text
 ///  0                   1                   2                   3
 ///  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -46,7 +46,7 @@ public class V6 extends AbstractGenerator implements Generator.TimeBased {
 
     @Override
     public UUID now(NodeId nodeId) {
-        return of(Timestamp.now(_ctx.clockSequence), nodeId);
+        return of(_ctx.clockSequence.timestamp(), nodeId);
     }
 
     @Override
