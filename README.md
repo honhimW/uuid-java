@@ -19,39 +19,31 @@ implementation 'io.github.honhimw:uuid-java:{latest}'
 
 > JMH version: 1.37  
 > VM version: JDK 25.0.1, Java HotSpot (TM) 64-Bit Server VM, 25.0.1+8-LTS-jvmci-b01  
-> Warmup: 2 iterations, 1 s each  
-> Measurement: 4 iterations, 1 s each  
+> Warmup: 5 iterations, 5 s each
+> Measurement: 4 iterations, 4 s each
 > Threads: 6 threads, will synchronize iterations  
 > Benchmark mode: Throughput, ops/time
 
 | Name          |       Score(thrpt) |
 |---------------|-------------------:|
-| V1Fasterxml   |    9889.128 ops/ms |
-| V1Self        |  248979.250 ops/ms |
-| V1SelfSecure  |   23203.039 ops/ms |
-| V1UuidCreator |   34402.695 ops/ms |
-| V3Fasterxml   |    6918.611 ops/ms |
-| V3Self        |   56499.424 ops/ms |
-| V3SelfSecure  |   54563.924 ops/ms |
-| V3UuidCreator |   41852.958 ops/ms |
-| V4Fasterxml   | 3081285.846 ops/ms |
-| V4Jdk         |    1021.013 ops/ms |
-| V4Self        | 3040052.353 ops/ms |
-| V4SelfSecure  |     251.294 ops/ms |
-| V4UuidCreator |   44051.426 ops/ms |
-| V5Fasterxml   |    3327.681 ops/ms |
-| V5Self        |   27256.804 ops/ms |
-| V5SelfSecure  |   27326.388 ops/ms |
-| V5UuidCreator |   23258.985 ops/ms |
-| V6Fasterxml   |    9896.053 ops/ms |
-| V6Self        |  274965.694 ops/ms |
-| V6SelfSecure  |   23408.190 ops/ms |
-| V6UuidCreator |   35989.205 ops/ms |
-| V7Fasterxml   |   31870.053 ops/ms |
-| V7Fastest     | 1292723.959 ops/ms |
-| V7Self        | 1404916.850 ops/ms |
-| V7SelfSecure  |     297.321 ops/ms |
-| V7UuidCreator |   19100.390 ops/ms |
+| V1Fasterxml   |    9875.550 ops/ms |
+| V1Self        |  251569.564 ops/ms |
+| V1UuidCreator |   33725.897 ops/ms |
+| V3Fasterxml   |    6505.923 ops/ms |
+| V3Self        |   50167.978 ops/ms |
+| V3UuidCreator |   37720.554 ops/ms |
+| V4Fasterxml   | 2807239.341 ops/ms |
+| V4Jdk         |    1012.926 ops/ms |
+| V4Self        | 2801417.654 ops/ms |
+| V4UuidCreator |   42465.890 ops/ms |
+| V5Fasterxml   |    3285.011 ops/ms |
+| V5Self        |   23947.733 ops/ms |
+| V5UuidCreator |   19930.041 ops/ms |
+| V6Fasterxml   |    9875.309 ops/ms |
+| V6Self        |  273115.546 ops/ms |
+| V6UuidCreator |   35289.157 ops/ms |
+| V7Fastest     | 1373584.697 ops/ms |
+| V7Self        | 1268108.792 ops/ms |
 
 </details>
 

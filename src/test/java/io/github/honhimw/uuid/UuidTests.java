@@ -4,7 +4,6 @@ import com.fasterxml.uuid.Generators;
 import io.github.honhimw.uuid.gen.V1;
 import io.github.honhimw.uuid.gen.V6;
 import io.github.honhimw.uuid.gen.V7;
-import io.github.robsonkades.uuidv7.UUIDv7;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -70,16 +69,6 @@ public class UuidTests {
             Optional<NodeId> node = uuid.node();
             Assertions.assertFalse(node.isPresent());
         }
-    }
-
-    @Test
-    @SneakyThrows
-    void resolve() {
-        UUID _uuid = UUIDv7.randomUUID();
-        Uuid uuid = Uuid.fromUUID(_uuid);
-        Assertions.assertEquals(Variant.RFC4122, uuid.variant());
-        Assertions.assertEquals(Version.SORT_RANDOM, uuid.version());
-        Assertions.assertTrue(uuid.timestamp().isPresent());
     }
 
     @Test
