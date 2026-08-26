@@ -93,30 +93,6 @@ public class UuidBuilder {
         return builder;
     }
 
-    public static UuidBuilder fromMd5Bytes(byte[] bytes) {
-        if (bytes.length != 16) {
-            throw new IllegalArgumentException("The length of the md5-bytes array must be 16.");
-        }
-        UuidBuilder builder = empty();
-        builder.bytes.put(bytes);
-        builder
-            .variant(Variant.RFC4122)
-            .version(Version.MD5);
-        return builder;
-    }
-
-    public static UuidBuilder fromSha1Bytes(byte[] bytes) {
-        if (bytes.length != 16) {
-            throw new IllegalArgumentException("The length of the sha1-bytes array must be 16.");
-        }
-        UuidBuilder builder = empty();
-        builder.bytes.put(bytes);
-        builder
-            .variant(Variant.RFC4122)
-            .version(Version.SHA1);
-        return builder;
-    }
-
     public static UuidBuilder fromSortedGregorian(Timestamp ts, NodeId nodeId) {
         long ticks = ts.asGregorian();
         int timeLow = (int) ((ticks >>> 28) & (-1L >>> 32));

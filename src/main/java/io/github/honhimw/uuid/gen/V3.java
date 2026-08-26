@@ -1,8 +1,6 @@
 package io.github.honhimw.uuid.gen;
 
-import io.github.honhimw.uuid.Context;
-import io.github.honhimw.uuid.UUIDs;
-import io.github.honhimw.uuid.UuidBuilder;
+import io.github.honhimw.uuid.*;
 import org.jspecify.annotations.Nullable;
 
 import java.security.MessageDigest;
@@ -67,7 +65,10 @@ public class V3 extends AbstractNameBasedGenerator {
     public UUID of(byte[] name) {
         MessageDigest md = getDigester();
         byte[] digest = md.digest(name);
-        return UuidBuilder.fromMd5Bytes(digest).build();
+        return UuidBuilder.fromBytes(digest)
+            .variant(Variant.RFC4122)
+            .version(Version.MD5)
+            .build();
     }
 
 }

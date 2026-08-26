@@ -178,6 +178,86 @@ public class Bytes implements Serializable, Comparable<Bytes> {
         return this;
     }
 
+    /// Shift-right bits by n bits starting at bit offset.
+    /// The n-bit gap is part of the moved range, i.e. the bits at
+    /// [offset, offset + length + n) are shifted right by n bits,
+    /// directly overwriting the target positions,
+    /// and the vacated positions [offset, offset + n) are filled with 0.
+    /// All parameters are bit-indexed rather than byte-indexed.
+    ///
+    /// @param offset bit offset of the first moved bit
+    /// @param length bit length of the shifted range without the gap
+    /// @param n      shift distance in bits
+    /// @return self
+    public Bytes partialShiftRight(int offset, int length, int n) {
+        if (n <= 0 || length <= 0) {
+            return this;
+        }
+        final byte[] bytes = this.bytes;
+        final int total = bytes.length << 3;
+        final int count = length + n;
+        // Move from the highest bit down so already-written positions
+        // are never re-read as sources.
+        for (int i = count - 1; i >= 0; i--) {
+            int src = offset + i;
+            int dst = src + n;
+            if (dst >= total || src >= total) {
+                continue;
+            }
+            int bit = (bytes[src >>> 3] >> (7 - (src & 7))) & 1;
+            int dstIndex = dst >>> 3;
+            int dstShift = 7 - (dst & 7);
+            bytes[dstIndex] = (byte) ((bytes[dstIndex] & ~(1 << dstShift)) | (bit << dstShift));
+        }
+        for (int i = 0; i < n && offset + i < total; i++) {
+            int index = (offset + i) >>> 3;
+            int shift = 7 - ((offset + i) & 7);
+            bytes[index] &= (byte) ~(1 << shift);
+        }
+        return this;
+    }
+
+    /// Shift-left bits at range [offset, offset + length) by n bits.
+    /// The moved bits directly overwrite the target positions
+    /// [offset - n, offset + length - n),
+    /// bits shifted below index 0 are discarded,
+    /// and the vacated source positions which are not covered
+    /// by the target range are filled with 0.
+    /// Bits outside the moved range remain untouched.
+    /// All parameters are bit-indexed rather than byte-indexed.
+    ///
+    /// @param offset bit offset of the first moved bit
+    /// @param length bit length of the moved range
+    /// @param n      shift distance in bits
+    /// @return self
+    public Bytes partialShiftLeft(int offset, int length, int n) {
+        if (n <= 0 || length <= 0) {
+            return this;
+        }
+        final byte[] bytes = this.bytes;
+        final int total = bytes.length << 3;
+        // Move from the lowest bit up so already-written positions
+        // are never re-read as sources.
+        for (int i = 0; i < length; i++) {
+            int src = offset + i;
+            int dst = src - n;
+            if (dst < 0 || src >= total) {
+                continue;
+            }
+            int bit = (bytes[src >>> 3] >> (7 - (src & 7))) & 1;
+            int dstIndex = dst >>> 3;
+            int dstShift = 7 - (dst & 7);
+            bytes[dstIndex] = (byte) ((bytes[dstIndex] & ~(1 << dstShift)) | (bit << dstShift));
+        }
+        // Clear the vacated source positions which are not overwritten by targets.
+        int from = Math.max(offset, offset + length - n);
+        int to = Math.min(offset + length, total);
+        for (int i = from; i < to; i++) {
+            bytes[i >>> 3] &= (byte) ~(1 << (7 - (i & 7)));
+        }
+        return this;
+    }
+
     @Override
     public int compareTo(Bytes o) {
         int cmp = Integer.compare(this.bytes.length, o.bytes.length);

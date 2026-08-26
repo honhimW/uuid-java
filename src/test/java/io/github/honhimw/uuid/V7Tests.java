@@ -68,4 +68,28 @@ public class V7Tests {
         Assertions.assertEquals(now, resolved);
     }
 
+    /// [Example of a UUIDv7 Value](https://www.rfc-editor.org/rfc/rfc9562.html#name-example-of-a-uuidv7-value)
+    /// ```text
+    /// -------------------------------------------
+    /// field       bits value
+    /// -------------------------------------------
+    /// unix_ts_ms  48   0x017F22E279B0
+    /// ver          4   0x7
+    /// rand_a      12   0xCC3
+    /// var          2   0b10
+    /// rand_b      62   0b01, 0x8C4DC0C0C07398F
+    /// -------------------------------------------
+    /// total       128
+    /// -------------------------------------------
+    /// final: 017F22E2-79B0-7CC3-98C4-DC0C0C07398F
+    /// ```
+    @Test
+    @SneakyThrows
+    void example() {
+        UUID uuid = UuidBuilder.fromUnixTimestampMillis(1645557742000L, 0x0CC3_18C4_DC0C_0C07L, 0x398F).build();
+        Assertions.assertEquals("017f22e2-79b0-7cc3-98c4-dc0c0c07398f", uuid.toString());
+        Assertions.assertEquals(7, uuid.version());
+        Assertions.assertEquals(2, uuid.variant());
+    }
+
 }
