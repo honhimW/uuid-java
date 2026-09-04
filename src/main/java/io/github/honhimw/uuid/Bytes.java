@@ -258,6 +258,10 @@ public class Bytes implements Serializable, Comparable<Bytes> {
         return this;
     }
 
+    public int length() {
+        return this.bytes.length;
+    }
+
     @Override
     public int compareTo(Bytes o) {
         int cmp = Integer.compare(this.bytes.length, o.bytes.length);

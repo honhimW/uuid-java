@@ -67,6 +67,10 @@ public class UuidBuilder {
         return builder;
     }
 
+    public static UuidBuilder fromBytes(Bytes bytes) {
+        return fromBytes(bytes.unwrap());
+    }
+
     public static UuidBuilder fromBytes(byte[] bytes) {
         if (bytes.length != 16) {
             throw new IllegalArgumentException("UUIDs only supports 16 bytes");

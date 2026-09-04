@@ -60,13 +60,12 @@ void main() {
     Generator generator = UUIDs
         .FAST  // FAST | SECURE default configuration
         .V7; // V1 | V3 | V4 | V5 | V6 | V7
-    UUID uuid = generator.next(); // Generation
-//    UUID uuid = UUIDs.FAST.V1.now(MacAddress.nodeId());
-//    UUID uuid = UUIDs.FAST.V3.of("foo");
-//    UUID uuid = UUIDs.FAST.V4.next();
-//    UUID uuid = UUIDs.FAST.V5.of("bar");
-//    UUID uuid = UUIDs.FAST.V6.now(MacAddress.nodeId());
-//    UUID uuid = UUIDs.FAST.V7.of(CounterSequence.SHARED.timestamp());
+    UUID uuid_v1 = UUIDs.FAST.V1.now(MacAddress.nodeId());
+    UUID uuid_v3 = UUIDs.FAST.V3.of("foo");
+    UUID uuid_v4 = UUIDs.FAST.V4.next();
+    UUID uuid_v5 = UUIDs.FAST.V5.of("bar");
+    UUID uuid_v6 = UUIDs.FAST.V6.now(MacAddress.nodeId());
+    UUID uuid_v7 = UUIDs.FAST.V7.of(CounterSequence.SHARED.timestamp());
 }
 ```
 
@@ -104,4 +103,46 @@ void main() {
     jdkUUID = uuid.asUUID();
     byte[] bytes = uuid.asBytes();
 } 
+```
+
+### UuidBuilder
+
+[Example of a UUIDv8 Value (Time-Based)](https://www.rfc-editor.org/rfc/rfc9562.html#name-example-of-a-uuidv8-value-t)
+
+```java
+import io.github.honhimw.uuid.UuidBuilder;
+import io.github.honhimw.uuid.Bytes;
+void main() {
+    Bytes bytes = new Bytes(16);
+    bytes
+        // 60-bits timestamp
+        .putLong(0x2489E9AD2EE2E00L << 4)
+        // random data
+        .putLong(0xEC932D5F69181C0L)
+        // skipping version 4-bits
+        .partialShiftRight(48, 12, 4)
+    ;
+    UuidBuilder builder = UuidBuilder.fromBytes(bytes);
+    UUID uuid = builder
+        .version(Version.CUSTOM)
+        .variant(Variant.FUTURE)
+        .build();
+}
+```
+
+[Example of a UUIDv8 Value (Name-Based)](https://www.rfc-editor.org/rfc/rfc9562.html#name-example-of-a-uuidv8-value-n)
+
+```java
+import io.github.honhimw.uuid.UuidBuilder;
+import io.github.honhimw.uuid.Bytes;
+void main() {
+    MessageDigest md = MessageDigest.getInstance("SHA256");
+    md.update(UUIDs.toBytes(UUIDs.NAMESPACE_DNS));
+    byte[] digest = md.digest("www.example.com".getBytes());
+    digest = Bytes.copyOf(digest, 16);
+    UUID uuid = UuidBuilder.fromBytes(digest)
+        .variant(Variant.RFC4122)
+        .version(Version.CUSTOM)
+        .build();
+}
 ```
