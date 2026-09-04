@@ -47,4 +47,34 @@ public class V1Tests {
         }
     }
 
+    /// [Example of a UUIDv1 Value](https://www.rfc-editor.org/rfc/rfc9562.html#name-example-of-a-uuidv1-value)
+    /// ```text
+    /// -------------------------------------------
+    /// field      bits value
+    /// -------------------------------------------
+    /// time_low   32   0xC232AB00
+    /// time_mid   16   0x9414
+    /// ver         4   0x1
+    /// time_high  12   0x1EC
+    /// var         2   0b10
+    /// clock_seq  14   0b11, 0x3C8
+    /// node       48   0x9F6BDECED846
+    /// -------------------------------------------
+    /// total      128
+    /// -------------------------------------------
+    /// final: C232AB00-9414-11EC-B3C8-9F6BDECED846
+    /// ```
+    @Test
+    @SneakyThrows
+    void example() {
+        long ticks = 0x1EC9414C232AB00L;
+        long counter = 0x33C8;
+        Timestamp timestamp = Timestamp.fromGregorian(ticks, counter);
+        NodeId nodeId = NodeId.of(new byte[]{(byte) 0x9F, 0x6B, (byte) 0xDE, (byte) 0xCE, (byte) 0xD8, 0x46});
+        UUID uuid = V1.of(timestamp, nodeId);
+        Assertions.assertEquals("c232ab00-9414-11ec-b3c8-9f6bdeced846", uuid.toString());
+        Assertions.assertEquals(1, uuid.version());
+        Assertions.assertEquals(2, uuid.variant());
+    }
+
 }

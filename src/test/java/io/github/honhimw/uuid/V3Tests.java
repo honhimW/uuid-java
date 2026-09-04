@@ -55,4 +55,37 @@ public class V3Tests {
         Assertions.assertEquals(md5UUID, uuid);
     }
 
+    /// [Example of a UUIDv3 Value](https://www.rfc-editor.org/rfc/rfc9562.html#name-example-of-a-uuidv3-value)
+    /// ```text
+    /// Namespace (DNS):  6ba7b810-9dad-11d1-80b4-00c04fd430c8
+    /// Name:             www.example.com
+    /// ------------------------------------------------------
+    /// MD5:              5df418813aed051548a72f4a814cf09e
+    ///
+    /// -------------------------------------------
+    /// field     bits value
+    /// -------------------------------------------
+    /// md5_high  48   0x5df418813aed
+    /// ver        4   0x3
+    /// md5_mid   12   0x515
+    /// var        2   0b10
+    /// md5_low   62   0b00, 0x8a72f4a814cf09e
+    /// -------------------------------------------
+    /// total     128
+    /// -------------------------------------------
+    /// final: 5df41881-3aed-3515-88a7-2f4a814cf09e
+    ///
+    /// MD5 hex and dash:      5df41881-3aed-0515-48a7-2f4a814cf09e
+    /// Ver and Var Overwrite: xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx
+    /// Final:                 5df41881-3aed-3515-88a7-2f4a814cf09e
+    /// ```
+    @Test
+    @SneakyThrows
+    void example() {
+        UUID uuid = V3.dns().of("www.example.com");
+        Assertions.assertEquals("5df41881-3aed-3515-88a7-2f4a814cf09e", uuid.toString());
+        Assertions.assertEquals(3, uuid.version());
+        Assertions.assertEquals(2, uuid.variant());
+    }
+
 }
